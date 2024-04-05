@@ -12,7 +12,7 @@ const register = async (req, res) => {
       securityQuestion3: req.body.securityQuestion3
     });
     await user.save();
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(200).json({ userId: user.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -28,7 +28,7 @@ const auth = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Authentication failed' });
     }
-    res.status(200).json({ message: 'Authentication successful' });
+    res.status(200).json({ userId: user.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
