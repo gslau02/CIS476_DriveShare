@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const SessionManager = require('../utils/SessionManager');
+
+const sessionManager = SessionManager.getInstance();
 
 const register = async (req, res) => {
   try {
@@ -12,7 +15,8 @@ const register = async (req, res) => {
       securityQuestion3: req.body.securityQuestion3
     });
     await user.save();
-    res.status(200).json({ userId: user.id });
+    const sessionToken = sessionManager.createSession(user.id);
+    res.status(200).json({ userId: user.id, sessionToken: sessionToken });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -28,6 +32,24 @@ const auth = async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Authentication failed' });
     }
+    const sessionToken = sessionManager.createSession(user.id);
+    res.status(200).json({ userId: user.id, sessionToken: sessionToken});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const verifySession = async (req, res) => {
+  try {
+    const sessionToken = req.body.sessionToken;
+    if (!sessionToken) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    const session = sessionManager.getSession(sessionToken);
+    if (!session || session.expireDate < new Date()) {
+      return res.status(401).json({ message: 'Session expired' });
+    }
+    res.status(200).json({ userId: session.userId });
     res.status(200).json({ userId: user.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -36,5 +58,6 @@ const auth = async (req, res) => {
 
 module.exports = {
   register,
-  auth
+  auth,
+  verifySession
 };
