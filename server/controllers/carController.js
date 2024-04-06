@@ -38,7 +38,6 @@ const fetchAllCars = async (req, res) => {
         { 'availability.endDate': { $exists: false } }
       ]
     });
-    console.log(cars);
     return res.status(200).json(cars);
   } catch (error) {
     console.error('Error fetching all cars: ', error);
