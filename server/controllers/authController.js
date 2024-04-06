@@ -50,6 +50,7 @@ const verifySession = async (req, res) => {
       return res.status(401).json({ message: 'Session expired' });
     }
     res.status(200).json({ userId: session.userId });
+    res.status(200).json({ userId: user.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
