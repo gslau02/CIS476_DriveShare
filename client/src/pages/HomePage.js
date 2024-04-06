@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // HomePage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -24,19 +23,5 @@ const HomePage = () => {
     </div>
   );
 };
-=======
-import React from 'react';
-
-class HomePage extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1>Welcome to the Home Page</h1>
-                <p>This is a simple home page.</p>
-            </div>
-        );
-    }
-}
->>>>>>> upstream/main
 
 export default HomePage;

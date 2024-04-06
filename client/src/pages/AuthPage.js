@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { authenticateUser } from '../utils/auth';
-=======
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authenticateUser, verifySession } from '../utils/auth';
->>>>>>> upstream/main
 
 const AuthPage = () => {
   const [formData, setFormData] = useState({
@@ -25,11 +19,7 @@ const AuthPage = () => {
     try {
       await authenticateUser(formData);
       navigate('/home');
-<<<<<<< HEAD
-      // Redirect to another page or show success message
-=======
       alert('Login successful');
->>>>>>> upstream/main
     } catch (error) {
       alert('Login failed');
       console.error(error.message);
