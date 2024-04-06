@@ -1,73 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookingCard from '../components/BookingCard';
-import { verifySession } from '../utils/auth';
 
 const MyBookingsPage = () => {
-  const [currentTab, setCurrentTab] = useState('active'); // Could also be 'history'
+  const [currentTab, setCurrentTab] = useState('active');
   const [activeBookings, setActiveBookings] = useState([]);
   const [pastBookings, setPastBookings] = useState([]);
-  const [isSessionValid, setIsSessionValid] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const sessionToken = localStorage.getItem('sessionToken'); // Or fetch from a more secure place
-
-    const initFetch = async () => {
-      if (!sessionToken) {
-        // TODO: Handle the lack of sessionToken (redirect to login?)
-        return;
-      }
-
+    const fetchBookings = async () => {
       try {
-        const sessionValid = await verifySession(sessionToken);
-        setIsSessionValid(sessionValid);
-
-        if (!sessionValid) {
-          // TODO: Handle invalid session (redirect to login?)
-          return;
-        }
-
-        const response = await axios.get('/api/bookings', {
-          headers: { Authorization: `Bearer ${sessionToken}` },
-        });
-        
-        const now = new Date();
-        setActiveBookings(response.data.filter(booking => new Date(booking.endDate) >= now));
-        setPastBookings(response.data.filter(booking => new Date(booking.endDate) < now));
+        const response = await axios.get(`/myBookings/${userId}`);
+        setActiveBookings(response.data.activeBookings);
+        setPastBookings(response.data.pastBookings);
+        setLoading(false);
       } catch (error) {
-        // Handle errors appropriately
-        console.error('Error fetching bookings', error);
+        console.error('Failed to load bookings:', error);
+        setError('Failed to load bookings');
+        setLoading(false);
       }
     };
 
-    initFetch();
+    const userId = localStorage.getItem('userId'); // Replace with secure authentication method
+    fetchBookings();
   }, []);
 
-  if (!isSessionValid) {
-    // TODO: Render something else here or redirect to the login page.
-    return <div>Please log in to view your bookings.</div>;
-  }
+  if (loading) return <div>Loading bookings...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
-    <div className="my-bookings-page">
-      <h1>My Bookings</h1>
-      <div className="tab-container">
-        <button onClick={() => setCurrentTab('active')} disabled={currentTab === 'active'}>
-          Active Bookings
-        </button>
-        <button onClick={() => setCurrentTab('history')} disabled={currentTab === 'history'}>
-          Past Bookings
-        </button>
-      </div>
+    <div>
+      <h2>Your Bookings</h2>
+      <button onClick={() => setCurrentTab('active')}>
+        Active
+      </button>
+      <button onClick={() => setCurrentTab('completed')}>
+        History
+      </button>
 
       <div>
-        {currentTab === 'active' && activeBookings.map(booking => (
-          <BookingCard key={booking.id} booking={booking} isActive={true} />
-        ))}
-        
-        {currentTab === 'history' && pastBookings.map(booking => (
-          <BookingCard key={booking.id} booking={booking} isActive={false} />
-        ))}
+        {currentTab === 'active' && activeBookings.map(booking => 
+          <BookingCard key={booking._id} booking={booking} />
+        )}
+        {currentTab === 'completed' && pastBookings.map(booking => 
+          <BookingCard key={booking._id} booking={booking} />
+        )}
       </div>
     </div>
   );
