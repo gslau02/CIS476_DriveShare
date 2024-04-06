@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BookingCard from '../components/BookingCard';
 //import { getUserBookings } from '../api';
-import { mockActiveBookings, mockPastBookings } from '../__mock__/mockData';
+// import { mockActiveBookings, mockPastBookings } from '../__mock__/mockData';
 
 const MyBookingsPage = () => {
   const [currentTab, setCurrentTab] = useState('active'); // 'active' or 'history'
@@ -14,8 +14,8 @@ const MyBookingsPage = () => {
     const fetchBookings = async () => {
       try {
         //const response = await getUserBookings(); // Add any required headers or authorization tokens
-        setActiveBookings(mockActiveBookings);
-        setPastBookings(mockPastBookings);
+        // setActiveBookings(mockActiveBookings);
+        // setPastBookings(mockPastBookings);
         const now = new Date();
         //setActiveBookings(response.data.filter(booking => new Date(booking.end) >= now));
         //setPastBookings(response.data.filter(booking => new Date(booking.end) < now));
