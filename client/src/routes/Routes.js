@@ -7,6 +7,7 @@ import AuthPage from '../pages/AuthPage';
 import ListCarPage from '../pages/ListCarPage';
 import MyListingsPage from '../pages/MyListingsPage';
 import HomePage from '../pages/HomePage';
+import MyBookingsPage from '../pages/MyBookingsPage';
 
 const AppRouter = () => {
   return (
@@ -16,6 +17,7 @@ const AppRouter = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/myBookings" element={<MyBookingsPage />} />
         <Route path="/myListings" element={<MyListingsPage />} />
         <Route path="/listCar" element={<ListCarPage />} />
       </Routes>
