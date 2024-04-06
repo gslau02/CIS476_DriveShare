@@ -1,22 +1,30 @@
-const Booking = require('../models/Booking');
+const { Booking } = require('../models/Booking');
 
-// Fetch all the bookings for a specific user
-const getBookingsForUser = async (req, res) => {
-  try {
-    const { userId } = req.params;  // Assuming you pass the userId as a URL parameter
-    const allBookings = await Booking.find({ customer: userId });
+const fetchActiveBookings = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const activeBookings = await Booking.find({ renter: userId, status: 'active' });
 
-    const now = new Date();
-    const activeBookings = allBookings.filter(booking => booking.endDate > now);
-    const pastBookings = allBookings.filter(booking => booking.endDate <= now);
+        return res.status(200).json(activeBookings);
+    } catch (error) {
+        console.error('Error fetching active bookings:', error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
 
-    res.json({ activeBookings, pastBookings });
-  } catch (error) {
-    console.error('Error retrieving bookings:', error);
-    res.status(500).json({ message: 'Error retrieving bookings' });
-  }
+const fetchBookingHistory = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const bookingHistory = await Booking.find({ renter: userId, status: 'history' });
+
+        return res.status(200).json(bookingHistory);
+    } catch (error) {
+        console.error('Error fetching booking history:', error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
 };
 
 module.exports = {
-  getBookingsForUser
+    fetchActiveBookings,
+    fetchBookingHistory
 };
