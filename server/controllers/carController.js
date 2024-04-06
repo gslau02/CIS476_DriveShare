@@ -28,6 +28,25 @@ const listCarForRent = async (req, res) => {
   }
 };
 
+const fetchAllCars = async (req, res) => {
+  try {
+    const currentDate = new Date();
+    const cars = await Car.find({
+      'availability.startDate': { $lte: currentDate },
+      $or: [
+        { 'availability.endDate': { $gte: currentDate } },
+        { 'availability.endDate': { $exists: false } }
+      ]
+    });
+    console.log(cars);
+    return res.status(200).json(cars);
+  } catch (error) {
+    console.error('Error fetching all cars: ', error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
-    listCarForRent
+    listCarForRent,
+    fetchAllCars
 };

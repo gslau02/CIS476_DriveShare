@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../utils/auth';
+import AllCarsPage from './AllCarsPage';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const HomePage = () => {
         <button onClick={() => navigate('/inbox')}>Inbox</button>
         <button onClick={handleLogout}>Logout</button>
       </nav>
+      <AllCarsPage />
       {/* ... other content ... */}
     </div>
   );
