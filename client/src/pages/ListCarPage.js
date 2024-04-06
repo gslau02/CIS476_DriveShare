@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { addCar } from '../utils/carUtils';
-
+import { Link } from 'react-router-dom';
+import { listCarForRent } from '../utils/car';
 
 const ListCarPage = () => {
   const [formData, setFormData] = useState({
@@ -9,10 +8,9 @@ const ListCarPage = () => {
     model: '',
     year: '',
     pricePerDay: '',
-    features: '',
-    imageUrl: ''
+    location: '',
+    owner: localStorage.getItem('userId'), // I'm assuming we want to read this only once when the component mounts
   });
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,27 +19,26 @@ const ListCarPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addCar(formData);
-      // Redirect to another page or show success message
+      const response = await listCarForRent(formData);
+      alert('Car listed successfully!');
     } catch (error) {
-      // Handle error, such as displaying an error message
       console.error(error.message);
+      alert('Failed to list the car.');
     }
   };
 
   return (
     <div>
-      <h1>List a New Car</h1>
+      <h2>List Your Car for Sale</h2>
       <form onSubmit={handleSubmit}>
-        {/* Form Inputs */}
-        <input type="text" name="make" value={formData.make} onChange={handleChange} required placeholder="Make" />
-        <input type="text" name="model" value={formData.model} onChange={handleChange} required placeholder="Model" />
-        <input type="number" name="year" value={formData.year} onChange={handleChange} required placeholder="Year" />
-        <input type="text" name="pricePerDay" value={formData.pricePerDay} onChange={handleChange} required placeholder="Price Per Day" />
-        <input type="text" name="features" value={formData.features} onChange={handleChange} placeholder="Features (comma separated)" />
-        <input type="text" name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="Image URL" />
-        <button type="submit">Submit Listing</button>
+        <input type="text" name="make" value={formData.make} onChange={handleChange} placeholder="Make" required />
+        <input type="text" name="model" value={formData.model} onChange={handleChange} placeholder="Model" required />
+        <input type="text" name="year" value={formData.year} onChange={handleChange} placeholder="Year" required />
+        <input type="text" name="pricePerDay" value={formData.pricePerDay} onChange={handleChange} placeholder="Price" required />
+        <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="Location" required />
+        <button type="submit">List Car</button>
       </form>
+      <Link to="/">Go to Home</Link>
     </div>
   );
 };

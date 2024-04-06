@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { authenticateUser } from '../utils/auth';
 
 const AuthPage = () => {
@@ -7,6 +7,8 @@ const AuthPage = () => {
     email: '',
     password: ''
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,6 +18,7 @@ const AuthPage = () => {
     e.preventDefault();
     try {
       await authenticateUser(formData);
+      navigate('/home');
       // Redirect to another page or show success message
     } catch (error) {
       // Handle error, such as displaying an error message
