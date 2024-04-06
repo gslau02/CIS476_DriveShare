@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { authenticateUser } from '../utils/auth';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { authenticateUser, verifySession } from '../utils/auth';
 
 const AuthPage = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,12 +18,32 @@ const AuthPage = () => {
     e.preventDefault();
     try {
       await authenticateUser(formData);
-      // Redirect to another page or show success message
+      navigate('/home');
+      alert('Login successful');
     } catch (error) {
-      // Handle error, such as displaying an error message
+      alert('Login failed');
       console.error(error.message);
     }
   };
+
+  useEffect(() => {
+    const sessionToken = localStorage.getItem('sessionToken');
+    if (sessionToken) {
+      verifySession(sessionToken)
+        .then((response) => {
+          if (response.userId) {
+            localStorage.setItem('userId', response.userId);
+            navigate('/home');
+            alert('Welcome back!');
+          } else {
+            localStorage.removeItem('sessionToken');
+          }
+        })
+        .catch(() => {
+          localStorage.removeItem('sessionToken');
+        });
+    }
+  }, [navigate]);
 
   return (
     <div>

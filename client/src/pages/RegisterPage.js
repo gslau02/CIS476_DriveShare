@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../utils/auth';
 
 const RegisterPage = () => {
@@ -11,6 +11,8 @@ const RegisterPage = () => {
     securityQuestion3: ''
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -19,9 +21,10 @@ const RegisterPage = () => {
     e.preventDefault();
     try {
       await registerUser(formData);
-      // Redirect to another page or show success message
+      navigate.push('/home');
+      alert('Registration successful');
     } catch (error) {
-      // Handle error, such as displaying an error message
+      alert('Registration failed');
       console.error(error.message);
     }
   };
