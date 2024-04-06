@@ -1,71 +1,73 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import BookingCard from '../components/BookingCard';
-//import { getUserBookings } from '../api';
-// import { mockActiveBookings, mockPastBookings } from '../__mock__/mockData';
+import { verifySession } from '../utils/auth';
 
 const MyBookingsPage = () => {
-  const [currentTab, setCurrentTab] = useState('active'); // 'active' or 'history'
+  const [currentTab, setCurrentTab] = useState('active'); // Could also be 'history'
   const [activeBookings, setActiveBookings] = useState([]);
   const [pastBookings, setPastBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [isSessionValid, setIsSessionValid] = useState(false);
 
   useEffect(() => {
-    const fetchBookings = async () => {
+    const sessionToken = localStorage.getItem('sessionToken'); // Or fetch from a more secure place
+
+    const initFetch = async () => {
+      if (!sessionToken) {
+        // TODO: Handle the lack of sessionToken (redirect to login?)
+        return;
+      }
+
       try {
-        //const response = await getUserBookings(); // Add any required headers or authorization tokens
-        // setActiveBookings(mockActiveBookings);
-        // setPastBookings(mockPastBookings);
+        const sessionValid = await verifySession(sessionToken);
+        setIsSessionValid(sessionValid);
+
+        if (!sessionValid) {
+          // TODO: Handle invalid session (redirect to login?)
+          return;
+        }
+
+        const response = await axios.get('/api/bookings', {
+          headers: { Authorization: `Bearer ${sessionToken}` },
+        });
+        
         const now = new Date();
-        //setActiveBookings(response.data.filter(booking => new Date(booking.end) >= now));
-        //setPastBookings(response.data.filter(booking => new Date(booking.end) < now));
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load bookings.');
-        setLoading(false);
+        setActiveBookings(response.data.filter(booking => new Date(booking.endDate) >= now));
+        setPastBookings(response.data.filter(booking => new Date(booking.endDate) < now));
+      } catch (error) {
+        // Handle errors appropriately
+        console.error('Error fetching bookings', error);
       }
     };
 
-    fetchBookings();
+    initFetch();
   }, []);
 
-  if (loading) return <div>Loading bookings...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (!isSessionValid) {
+    // TODO: Render something else here or redirect to the login page.
+    return <div>Please log in to view your bookings.</div>;
+  }
 
   return (
-    <div>
-      <h2>My Bookings</h2>
-      <div>
-        <button onClick={() => setCurrentTab('active')} disabled={currentTab === 'active'}>Active</button>
-        <button onClick={() => setCurrentTab('history')} disabled={currentTab === 'history'}>History</button>
+    <div className="my-bookings-page">
+      <h1>My Bookings</h1>
+      <div className="tab-container">
+        <button onClick={() => setCurrentTab('active')} disabled={currentTab === 'active'}>
+          Active Bookings
+        </button>
+        <button onClick={() => setCurrentTab('history')} disabled={currentTab === 'history'}>
+          Past Bookings
+        </button>
       </div>
 
       <div>
-        {currentTab === 'active' && (
-          <>
-            <h3>Active Bookings</h3>
-            {activeBookings.length > 0 ? (
-              activeBookings.map(booking => (
-                <BookingCard key={booking.id} booking={booking} active={true} />
-              ))
-            ) : (
-              <p>No active bookings found.</p>
-            )}
-          </>
-        )}
-
-        {currentTab === 'history' && (
-          <>
-            <h3>Past Bookings</h3>
-            {pastBookings.length > 0 ? (
-              pastBookings.map(booking => (
-                <BookingCard key={booking.id} booking={booking} active={false} />
-              ))
-            ) : (
-              <p>No past bookings found.</p>
-            )}
-          </>
-        )}
+        {currentTab === 'active' && activeBookings.map(booking => (
+          <BookingCard key={booking.id} booking={booking} isActive={true} />
+        ))}
+        
+        {currentTab === 'history' && pastBookings.map(booking => (
+          <BookingCard key={booking.id} booking={booking} isActive={false} />
+        ))}
       </div>
     </div>
   );
