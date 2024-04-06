@@ -10,3 +10,13 @@ export const listCarForRent = async (carData) => {
         throw error;
     }
 };
+
+// Function to fetch the user's car listings
+export const getUserCarListings = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/listUserCarListings`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

@@ -7,6 +7,7 @@ import AuthPage from '../pages/AuthPage';
 import ListCarPage from '../pages/ListCarPage';
 import MyListingsPage from '../pages/MyListingsPage';
 import HomePage from '../pages/HomePage';
+import EditCarPage from '../pages/EditCarPage';
 
 const AppRouter = () => {
   return (
@@ -18,6 +19,7 @@ const AppRouter = () => {
         <Route path="/home" element={<HomePage />} />
         <Route path="/myListings" element={<MyListingsPage />} />
         <Route path="/listCar" element={<ListCarPage />} />
+        <Route path="/editCar/:carId" element={<EditCarPage />} />
       </Routes>
     </Router>
   );

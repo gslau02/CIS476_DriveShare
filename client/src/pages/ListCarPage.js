@@ -1,15 +1,18 @@
+// ListCarPage.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { listCarForRent } from '../utils/car';
+import axios from 'axios';
 
 const ListCarPage = () => {
   const [formData, setFormData] = useState({
     make: '',
     model: '',
     year: '',
-    pricePerDay: '',
-    location: '',
-    owner: localStorage.getItem('userId'), // I'm assuming we want to read this only once when the component mounts
+    mileage: '',
+    rentalPricing: '',
+    pickUpLocation: '',
+    startDate: '',
+    endDate: '',
+    owner: localStorage.getItem("userId")
   });
 
   const handleChange = (e) => {
@@ -19,7 +22,7 @@ const ListCarPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await listCarForRent(formData);
+      await axios.post('http://localhost:3001/car/listCarForRent', formData);
       alert('Car listed successfully!');
     } catch (error) {
       console.error(error.message);
@@ -34,11 +37,13 @@ const ListCarPage = () => {
         <input type="text" name="make" value={formData.make} onChange={handleChange} placeholder="Make" required />
         <input type="text" name="model" value={formData.model} onChange={handleChange} placeholder="Model" required />
         <input type="text" name="year" value={formData.year} onChange={handleChange} placeholder="Year" required />
-        <input type="text" name="pricePerDay" value={formData.pricePerDay} onChange={handleChange} placeholder="Price" required />
-        <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="Location" required />
+        <input type="text" name="mileage" value={formData.mileage} onChange={handleChange} placeholder="Mileage" required />
+        <input type="text" name="rentalPricing" value={formData.rentalPricing} onChange={handleChange} placeholder="Rental Pricing" required />
+        <input type="text" name="pickUpLocation" value={formData.pickUpLocation} onChange={handleChange} placeholder="Pick Up Location" required />
+        <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} placeholder="Start Date" required />
+        <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} placeholder="End Date" required />
         <button type="submit">List Car</button>
       </form>
-      <Link to="/">Go to Home</Link>
     </div>
   );
 };

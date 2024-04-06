@@ -1,33 +1,92 @@
-const Car = require('../models/Car'); // Replace with your actual car rental model
+// carController.js
+const { Car, CarBuilder } = require('../models/Car');
 
-// This controller will handle the logic for listing a new car for rent
 const listCarForRent = async (req, res) => {
-  try {
-    const { make, model, year, pricePerDay, location, owner } = req.body;
-
-    // Create a new Car instance representing a rentable car
-    const car = new Car({
-      make,
-      model,
-      year,
-      pricePerDay,
-      location,
-      owner
-    });
-
-    // Save the car to the database
-    await car.save();
-
-    return res.status(201).json({
-      message: "Car listed for rent successfully!",
-      car
-    });
-  } catch (error) {
-    console.error('Error listing the car for rent: ', error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
+    try {
+      const { make, model, year, mileage, rentalPricing, pickUpLocation, owner, startDate, endDate } = req.body;
+  
+      const car = new CarBuilder()
+        .setMake(make)
+        .setModel(model)
+        .setYear(year)
+        .setMileage(mileage)
+        .setRentalPricing(rentalPricing)
+        .setPickUpLocation(pickUpLocation)
+        .setOwner(owner)
+        .addAvailability(startDate, endDate)
+        .build();
+  
+      await car.save();
+  
+      return res.status(201).json({
+        message: "Car listed for rent successfully!",
+        car
+      });
+    } catch (error) {
+      console.error('Error listing the car for rent: ', error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
 };
 
+const listUserCarListings = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Get the user ID from the request parameters
+        const userCarListings = await Car.find({ owner: userId });
+
+        return res.status(200).json(userCarListings);
+    } catch (error) {
+        console.error('Error fetching user car listings:', error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const updateCarListing = async (req, res) => {
+    try {
+      const { carId } = req.params;
+      const updatedCarData = req.body; // Update with the new car details
+  
+      const updatedCar = await Car.findByIdAndUpdate(carId, updatedCarData, { new: true });
+  
+      return res.status(200).json(updatedCar);
+    } catch (error) {
+      console.error('Error updating car listing:', error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const getCarDetails = async (req, res) => {
+    try {
+      const { carId } = req.params;
+      const car = await Car.findById(carId);
+      if (!car) {
+        return res.status(404).json({ message: "Car not found" });
+      }
+      return res.status(200).json(car);
+    } catch (error) {
+      console.error('Error fetching car details:', error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+const deleteCarListing = async (req, res) => {
+    try {
+      const { carId } = req.params;
+      const deletedCar = await Car.findByIdAndDelete(carId);
+      if (!deletedCar) {
+        return res.status(404).json({ message: "Car not found" });
+      }
+      return res.status(200).json({ message: "Car deleted successfully" });
+    } catch (error) {
+      console.error('Error deleting car:', error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
 module.exports = {
-    listCarForRent
+  listCarForRent,
+  listUserCarListings,
+  updateCarListing,
+  getCarDetails,
+  deleteCarListing
 };
