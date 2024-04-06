@@ -11,12 +11,20 @@ export const listCarForRent = async (carData) => {
     }
 };
 
-// Function to fetch the user's car listings
-export const getUserCarListings = async () => {
+export const fetchAllCars = async () => {
     try {
-        const response = await axios.get(`${API_URL}/listUserCarListings`);
+        const response = await axios.get(`${API_URL}/fetchAllCars`);
         return response.data;
     } catch (error) {
         throw error;
     }
-};
+}
+
+// export const fetchSingleCar = async (carId) => {
+//     try {
+//         const response = await axios.get(`${API_URL}/${carId}`);
+//         return response.data;
+//     } catch (error) {
+//         throw error;
+//     }
+// }

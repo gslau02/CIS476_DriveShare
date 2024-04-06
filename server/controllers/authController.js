@@ -50,7 +50,19 @@ const verifySession = async (req, res) => {
       return res.status(401).json({ message: 'Session expired' });
     }
     res.status(200).json({ userId: session.userId });
-    res.status(200).json({ userId: user.id });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const logout = async (req, res) => {
+  try {
+    const sessionToken = req.body.sessionToken;
+    if (!sessionToken) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    sessionManager.deleteSession(sessionToken);
+    res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -59,5 +71,6 @@ const verifySession = async (req, res) => {
 module.exports = {
   register,
   auth,
-  verifySession
+  verifySession,
+  logout
 };

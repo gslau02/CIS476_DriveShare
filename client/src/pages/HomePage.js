@@ -1,13 +1,22 @@
 // HomePage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../utils/auth';
+import AllCarsPage from './AllCarsPage';
 
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    //userSession.logout();
-    navigate('/login');
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      await logout();
+      navigate('/auth');
+      alert('Logout successful');
+    } catch (error) {
+      alert('Logout failed');
+      console.error(error.message);
+    }
   };
 
   return (
@@ -19,6 +28,7 @@ const HomePage = () => {
         <button onClick={() => navigate('/inbox')}>Inbox</button>
         <button onClick={handleLogout}>Logout</button>
       </nav>
+      <AllCarsPage />
       {/* ... other content ... */}
     </div>
   );

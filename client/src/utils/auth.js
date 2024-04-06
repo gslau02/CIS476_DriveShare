@@ -38,3 +38,16 @@ export const verifySession = async (sessionToken) => {
     throw new Error(error.response.data.error);
   }
 };
+
+export const logout = async () => {
+  try {
+    const sessionToken = localStorage.getItem('sessionToken');
+    if (sessionToken) {
+      await axios.post(`${API_URL}/logout`, { sessionToken });
+      localStorage.removeItem('userId');
+      localStorage.removeItem('sessionToken');
+    }
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+}
