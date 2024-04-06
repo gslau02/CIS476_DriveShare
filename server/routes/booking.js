@@ -2,16 +2,29 @@ const express = require('express');
 const router = express.Router();
 const Booking = require('../models/Booking');
 
-// GET endpoint to retrieve current and past bookings for a user
-router.get('/mybookings/:userId', async (req, res) => {
+// Route to handle getting bookings for a user (both active and history)
+router.get('/:userId', async (req, res) => {
+  const { userId } = req.params;
+
   try {
-    const { userId } = req.params;
-    const activeBookings = await Booking.find({ renter: userId, status: 'active' });
-    const pastBookings = await Booking.find({ renter: userId, status: { $in: ['completed', 'cancelled'] } });
+    // Retrieve all bookings where the user is either the renter or the owner.
+    // You can further refine the search based on the user's role.
+    const bookings = await Booking.find({
+      $or: [{ renter: userId }, { owner: userId }]
+    }).populate('car'); // Assuming you'd like to also retrieve the car details
+
+    // You can sort the bookings based on their start date.
+    bookings.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
+    // Separate the bookings into 'active' and 'history' based on some criteria, e.g., endDate
+    const now = new Date();
+    const activeBookings = bookings.filter(booking => booking.endDate > now);
+    const pastBookings = bookings.filter(booking => booking.endDate <= now);
 
     res.json({ active: activeBookings, history: pastBookings });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching bookings', error: error });
+    console.error('Error fetching bookings:', error);
+    res.status(500).json({ message: 'Error fetching bookings' });
   }
 });
 
