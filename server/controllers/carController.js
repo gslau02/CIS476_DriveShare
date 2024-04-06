@@ -54,20 +54,6 @@ const updateCarListing = async (req, res) => {
     }
 };
 
-const getCarDetails = async (req, res) => {
-    try {
-      const { carId } = req.params;
-      const car = await Car.findById(carId);
-      if (!car) {
-        return res.status(404).json({ message: "Car not found" });
-      }
-      return res.status(200).json(car);
-    } catch (error) {
-      console.error('Error fetching car details:', error);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-};
-
 const deleteCarListing = async (req, res) => {
     try {
       const { carId } = req.params;
@@ -92,7 +78,6 @@ const fetchAllCars = async (req, res) => {
         { 'availability.endDate': { $exists: false } }
       ]
     });
-    console.log(cars);
     return res.status(200).json(cars);
   } catch (error) {
     console.error('Error fetching all cars: ', error);
@@ -100,26 +85,25 @@ const fetchAllCars = async (req, res) => {
   }
 };
 
-// const fetchSingleCar = async (req, res) => {
-//   try {
-//     const carId = req.params.id;
-//     const car = await Car.findById(carId);
-//     if (!car) {
-//       return res.status(404).json({ message: "Car not found" });
-//     }
-//     return res.status(200).json(car);
-//   } catch (error) {
-//     console.error('Error fetching single car: ', error);
-//     return res.status(500).json({ message: "Internal server error" });
-//   }
-// }
+const fetchSingleCar = async (req, res) => {
+  try {
+    const carId = req.params.id;
+    const car = await Car.findById(carId);
+    if (!car) {
+      return res.status(404).json({ message: "Car not found" });
+    }
+    return res.status(200).json(car);
+  } catch (error) {
+    console.error('Error fetching single car: ', error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
 
 module.exports = {
     listCarForRent,
     fetchAllCars,
-    //fetchSingleCar,
+    fetchSingleCar,
     listUserCarListings,
     updateCarListing,
-    getCarDetails,
     deleteCarListing
 };

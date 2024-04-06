@@ -20,11 +20,11 @@ export const fetchAllCars = async () => {
     }
 }
 
-// export const fetchSingleCar = async (carId) => {
-//     try {
-//         const response = await axios.get(`${API_URL}/${carId}`);
-//         return response.data;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+export const fetchSingleCar = async (carId) => {
+    try {
+        const response = await axios.get(`${API_URL}/${carId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

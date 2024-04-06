@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { fetchSingleCar } from '../utils/car'
-//import { getCarDetails } from '../../../server/controllers/carController';
 
 const SingleCarPage = () => {
   const { carId } = useParams();
@@ -10,9 +8,8 @@ const SingleCarPage = () => {
   useEffect(() => {
     const fetchCar = async () => {
       try {
-        //const fetchedCar = await getCarDetails(carId);
-        const response = await axios.put(`http://localhost:3001/car/${carId}`, car);
-        setCar(response);
+        const fetchedCar = await fetchSingleCar(carId);
+        setCar(fetchedCar);
       } catch (error) {
         console.error('Error fetching car:', error);
       }
