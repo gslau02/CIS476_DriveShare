@@ -16,6 +16,8 @@ const CarCard = ({ car }) => {
       <p>Mileage: {car.mileage}</p>
       <p>Rental Pricing: ${car.rentalPricing}/day</p>
       <p>Pick Up Location: {car.pickUpLocation}</p>
+      <p>Available Start Date: {car.availability.startDate}</p>
+      <p>Available End Date: {car.availability.endDate}</p>
     </div>
   );
 };
