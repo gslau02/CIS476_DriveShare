@@ -8,6 +8,7 @@ import ListCarPage from '../pages/ListCarPage';
 import MyListingsPage from '../pages/MyListingsPage';
 import HomePage from '../pages/HomePage';
 import AllCarsPage from '../pages/AllCarsPage';
+import SingleCarPage from '../pages/SingleCarPage';
 import MyBookingsPage from '../pages/MyBookingsPage';
 
 const AppRouter = () => {
@@ -19,6 +20,7 @@ const AppRouter = () => {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/allCars" element={<AllCarsPage />} />
+        <Route path="/car/:carId" element={<SingleCarPage />} />
         <Route path="/myBookings" element={<MyBookingsPage />} />
         <Route path="/myListings" element={<MyListingsPage />} />
         <Route path="/listCar" element={<ListCarPage />} />

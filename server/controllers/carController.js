@@ -38,7 +38,6 @@ const fetchAllCars = async (req, res) => {
         { 'availability.endDate': { $exists: false } }
       ]
     });
-    console.log(cars);
     return res.status(200).json(cars);
   } catch (error) {
     console.error('Error fetching all cars: ', error);
@@ -46,7 +45,22 @@ const fetchAllCars = async (req, res) => {
   }
 };
 
+const fetchSingleCar = async (req, res) => {
+  try {
+    const carId = req.params.id;
+    const car = await Car.findById(carId);
+    if (!car) {
+      return res.status(404).json({ message: "Car not found" });
+    }
+    return res.status(200).json(car);
+  } catch (error) {
+    console.error('Error fetching single car: ', error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 module.exports = {
     listCarForRent,
-    fetchAllCars
+    fetchAllCars,
+    fetchSingleCar
 };
