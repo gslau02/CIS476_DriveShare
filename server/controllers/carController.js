@@ -72,13 +72,7 @@ const fetchAllCars = async (req, res) => {
   try {
     const { location, fromDate, toDate } = req.query;
     const currentDate = new Date();
-    let query = {
-      'availability.startDate': { $lte: currentDate },
-      $or: [
-        { 'availability.endDate': { $gte: currentDate } },
-        { 'availability.endDate': { $exists: false } }
-      ]
-    };
+    let query = { 'availability.endDate': { $gte: currentDate } };
 
     if (location) {
       query.pickUpLocation = location;
