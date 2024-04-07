@@ -33,10 +33,11 @@
 // routes/bookingRoutes.js
 const express = require('express');
 const router = express.Router();
-const { createBooking, checkForClashes } = require('../controllers/bookingController')
+const { createBooking, checkForClashes, activateBooking } = require('../controllers/bookingController')
 
 router.post('/createBooking', createBooking);
 router.get('/checkForClashes/:carId', checkForClashes);
+router.put('/activateBooking/:bookingId', activateBooking);
 
 module.exports = router;
 

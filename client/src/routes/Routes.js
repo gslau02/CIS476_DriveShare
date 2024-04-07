@@ -12,6 +12,7 @@ import AllCarsPage from '../pages/AllCarsPage';
 import SingleCarPage from '../pages/SingleCarPage';
 import MyBookingsPage from '../pages/MyBookingsPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
+import PaymentPage from '../pages/PaymentPage';
 
 const AppRouter = () => {
   return (
@@ -28,6 +29,7 @@ const AppRouter = () => {
         <Route path="/myListings" element={<MyListingsPage />} />
         <Route path="/listCar" element={<ListCarPage />} />
         <Route path="/editCar/:carId" element={<EditCarPage />} />
+        <Route path="/payment" element={<PaymentPage />}/>
       </Routes>
     </Router>
   );

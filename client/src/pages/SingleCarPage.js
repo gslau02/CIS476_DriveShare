@@ -1,53 +1,19 @@
-// import React, { useState, useEffect } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { fetchSingleCar } from '../utils/car'
-
-// const SingleCarPage = () => {
-//   const { carId } = useParams();
-//   const [car, setCar] = useState(null);
-//   useEffect(() => {
-//     const fetchCar = async () => {
-//       try {
-//         const fetchedCar = await fetchSingleCar(carId);
-//         setCar(fetchedCar);
-//       } catch (error) {
-//         console.error('Error fetching car:', error);
-//       }
-//     };
-//     fetchCar();
-//   }, [carId]);
-
-//   if (!car) {
-//     return <div>Loading...</div>;
-//   }
-
-//   return (
-//     <div>
-//       <h2>{car.make} {car.model}</h2>
-//       <p>Year: {car.year}</p>
-//       <p>Mileage: {car.mileage}</p>
-//       <p>Rental Pricing: ${car.rentalPricing}/day</p>
-//       <p>Pick Up Location: {car.pickUpLocation}</p>
-//       {/* Add more details as needed */}
-//     </div>
-//   );
-// };
-
-// export default SingleCarPage;
-
 // SingleCarPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { fetchSingleCar } from '../utils/car';
+import PaymentPage from './PaymentPage';
 
 const SingleCarPage = () => {
   const { carId } = useParams();
   const [car, setCar] = useState(null);
+  const [bookingId, setBookingId] = useState(null);
   const [bookingData, setBookingData] = useState({
     startDate: '',
     endDate: ''
   });
+  const [bookingCreated, setBookingCreated] = useState(false);
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -102,12 +68,15 @@ const SingleCarPage = () => {
       }
 
       // If no clashes, proceed with booking creation
-      await axios.post('http://localhost:3001/booking/createBooking', {
+      const response = await axios.post('http://localhost:3001/booking/createBooking', {
         ...bookingData,
         carId: car._id,
         renterId: localStorage.getItem("userId")
       });
+      const { bookingId } = response.data;
       alert('Booking created successfully!');
+      setBookingCreated(true);
+      setBookingId(bookingId);
     } catch (error) {
       console.error('Error creating booking:', error.message);
       alert('Failed to create the booking.');
@@ -136,37 +105,48 @@ const SingleCarPage = () => {
 
   return (
     <div>
-      <h2>{car.make} {car.model}</h2>
-      <p>Year: {car.year}</p>
-      <p>Mileage: {car.mileage}</p>
-      <p>Rental Pricing: {car.rentalPricing}</p>
-      <p>Pick Up Location: {car.pickUpLocation}</p>
-      <p>Available from: {car.availability.startDate}</p>
-      <p>Available until: {car.availability.endDate}</p>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="date" 
-          name="startDate" 
-          value={bookingData.startDate} 
-          onChange={handleChange} 
-          min={car.availability.startDate} // Set the minimum allowed date
-          max={car.availability.endDate}   // Set the maximum allowed date
-          placeholder="Start Date" 
-          required 
+      {car && (
+        <div>
+          <h2>{car.make} {car.model}</h2>
+          <p>Year: {car.year}</p>
+          <p>Mileage: {car.mileage}</p>
+          <p>Rental Pricing: {car.rentalPricing}</p>
+          <p>Pick Up Location: {car.pickUpLocation}</p>
+          <p>Available from: {car.availability.startDate}</p>
+          <p>Available until: {car.availability.endDate}</p>
+          <form onSubmit={handleSubmit}>
+            <input 
+              type="date" 
+              name="startDate" 
+              value={bookingData.startDate} 
+              onChange={handleChange} 
+              min={car.availability.startDate} // Set the minimum allowed date
+              max={car.availability.endDate}   // Set the maximum allowed date
+              placeholder="Start Date" 
+              required 
+            />
+            <input 
+              type="date" 
+              name="endDate" 
+              value={bookingData.endDate} 
+              onChange={handleChange} 
+              min={car.availability.startDate} // Set the minimum allowed date
+              max={car.availability.endDate}   // Set the maximum allowed date
+              placeholder="End Date" 
+              required 
+            />
+            <button type="submit">Book Car</button>
+          </form>
+        </div>
+      )}
+      {/* Redirect to Payment page after booking created */}
+      {bookingCreated && car && (
+        <PaymentPage
+          bookingData={bookingData}
+          car={car}
+          bookingId={bookingId}
         />
-        <input 
-          type="date" 
-          name="endDate" 
-          value={bookingData.endDate} 
-          onChange={handleChange} 
-          min={car.availability.startDate} // Set the minimum allowed date
-          max={car.availability.endDate}   // Set the maximum allowed date
-          placeholder="End Date" 
-          required 
-        />
-
-        <button type="submit">Book Car</button>
-      </form>
+      )}
     </div>
   );
 };
