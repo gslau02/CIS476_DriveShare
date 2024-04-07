@@ -1,4 +1,6 @@
 const Booking = require('../models/Booking');
+const User = require('../models/User');
+const { Car } = require('../models/Car');
 
 const createBooking = async (req, res) => {
   try {
@@ -38,8 +40,25 @@ const fetchBookingsByUser = async (req, res) => {
     const allBookings = await Booking.find({ renterId: userId });
 
     const now = new Date();
-    const activeBookings = allBookings.filter(booking => booking.endDate > now);
-    const pastBookings = allBookings.filter(booking => booking.endDate <= now);
+    const activeBookings = await Promise.all(
+      allBookings
+        .filter(booking => booking.endDate > now)
+        .map(async booking => {
+          const car = await Car.findById(booking.carId).select('make model year pickUpLocation owner');
+          const owner = await User.findById(car.owner).select('email');
+          return { ...booking.toObject(), car, owner };
+        })
+    );
+
+    const pastBookings = await Promise.all(
+      allBookings
+        .filter(booking => booking.endDate <= now)
+        .map(async booking => {
+          const car = await Car.findById(booking.carId).select('make model year pickUpLocation owner');
+          const owner = await User.findById(car.owner).select('email');
+          return { ...booking.toObject(), car, owner };
+        })
+    );
 
     res.json({ activeBookings, pastBookings });
   } catch (error) {
