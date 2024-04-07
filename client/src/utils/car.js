@@ -11,14 +11,18 @@ export const listCarForRent = async (carData) => {
     }
 };
 
-export const fetchAllCars = async () => {
-    try {
-        const response = await axios.get(`${API_URL}/fetchAllCars`);
-        return response.data;
-    } catch (error) {
-        throw error;
+export const fetchAllCars = async (searchParams) => {
+  try {
+    let url = `${API_URL}/fetchAllCars`;
+    if (searchParams) {
+      url += `?${new URLSearchParams(searchParams).toString()}`;
     }
-}
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const fetchSingleCar = async (carId) => {
     try {

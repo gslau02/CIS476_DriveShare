@@ -70,14 +70,26 @@ const deleteCarListing = async (req, res) => {
 
 const fetchAllCars = async (req, res) => {
   try {
+    const { location, fromDate, toDate } = req.query;
     const currentDate = new Date();
-    const cars = await Car.find({
+    let query = {
       'availability.startDate': { $lte: currentDate },
       $or: [
         { 'availability.endDate': { $gte: currentDate } },
         { 'availability.endDate': { $exists: false } }
       ]
-    });
+    };
+
+    if (location) {
+      query.pickUpLocation = location;
+    }
+
+    if (fromDate && toDate) {
+      query['availability.startDate'] = { $lte: new Date(fromDate) };
+      query.$or[0]['availability.endDate'] = { $gte: new Date(toDate) };
+    }
+
+    const cars = await Car.find(query);
     return res.status(200).json(cars);
   } catch (error) {
     console.error('Error fetching all cars: ', error);
