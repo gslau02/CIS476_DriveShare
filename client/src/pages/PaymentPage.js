@@ -47,7 +47,7 @@ const PaymentPage = ({ bookingData, car, bookingId }) => {
 
   // Calculate rental duration in days
   const rentalDuration = `${startDate} to ${endDate}`;
-  const durationInDays = (endDateObj - startDateObj) / (1000 * 60 * 60 * 24);
+  const durationInDays = Math.ceil((endDateObj - startDateObj) / (1000 * 60 * 60 * 24)) + 1;
 
   // Calculate total price
   const totalPrice = durationInDays * rentalPricing;
