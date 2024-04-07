@@ -18,9 +18,21 @@ const createBooking = async (req, res) => {
     // Extract the ID of the newly created booking
     const bookingId = booking._id;
 
-    // Notify observers
-    notificationObserver.update(renterId, 'Your booking was successful');
-    notificationObserver.update(ownerId, 'Your car has been booked');
+    // Fetch car details
+    const car = await Car.findById(carId);
+    const carName = car ? `${car.make} ${car.model}` : 'Unknown Car'; // Get the car name
+
+    // Concatenate car name with the message
+    const renterMessage = `Your booking for ${carName} was successful`;
+    const ownerMessage = `Your car (${carName}) has been booked`;
+
+    // Notify observers with modified message
+    notificationObserver.update(renterId, renterMessage);
+    notificationObserver.update(ownerId, ownerMessage);
+    
+    // // Notify observers
+    // notificationObserver.update(renterId, 'Your booking was successful');
+    // notificationObserver.update(ownerId, 'Your car has been booked');
 
     // await Notification.create({ recipient: renterId, message: 'Your booking was successful' });
     // await Notification.create({ recipient: ownerId, message: 'Your car has been booked' });
