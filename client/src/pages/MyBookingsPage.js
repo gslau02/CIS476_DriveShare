@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookingCard from '../components/BookingCard';
+import { fetchBookingsByUser } from '../utils/booking';
 
 const MyBookingsPage = () => {
+  const userId = localStorage.getItem('userId');
   const [currentTab, setCurrentTab] = useState('active');
   const [activeBookings, setActiveBookings] = useState([]);
   const [historyBookings, setHistoryBookings] = useState([]);
@@ -11,10 +13,9 @@ const MyBookingsPage = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const activeResponse = await axios.get('http://localhost:3001/bookings/active');
-        const historyResponse = await axios.get('http://localhost:3001/bookings/history');
-        setActiveBookings(activeResponse.data);
-        setHistoryBookings(historyResponse.data);
+        const allBookings = await fetchBookingsByUser(userId);
+        setActiveBookings(allBookings.activeBookings);
+        setHistoryBookings(allBookings.pastBookings);
       } catch (error) {
         console.error('Failed to load bookings:', error);
       } finally {
