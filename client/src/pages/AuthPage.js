@@ -32,9 +32,8 @@ const AuthPage = () => {
       verifySession(sessionToken)
         .then((response) => {
           if (response.userId) {
-            localStorage.setItem('userId', response.userId);
-            navigate('/home');
             alert('Welcome back!');
+            navigate('/home');
           } else {
             localStorage.removeItem('sessionToken');
           }
@@ -53,7 +52,8 @@ const AuthPage = () => {
         <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
         <button type="submit">Login</button>
       </form>
-      <Link to="/register">Go to Registration</Link>
+      <Link to="/register">Not a user? Register</Link>
+      <Link to="/forgotPassword">Forgot Password?</Link>
     </div>
   );
 };

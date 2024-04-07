@@ -33,6 +33,9 @@ export const authenticateUser = async (userData) => {
 export const verifySession = async (sessionToken) => {
   try {
     const response = await axios.post(`${API_URL}/verify-session`, { sessionToken });
+    if (response.data) {
+      localStorage.setItem('userId', response.data.userId);
+    }
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -47,6 +50,33 @@ export const logout = async () => {
       localStorage.removeItem('userId');
       localStorage.removeItem('sessionToken');
     }
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+}
+
+export const getSecurityQuestions = async (email) => {
+  try {
+    const response = await axios.post(`${API_URL}/questions`, { email })
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+}
+
+export const verifySecurityQuestions = async (email, answers) => {
+  try {
+    const response = await axios.post(`${API_URL}/verify-answers`, { email, answers });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+}
+
+export const updatePassword = async (email, password) => {
+  try {
+    const response = await axios.post(`${API_URL}/update-password`, { email, password });
+    return response.data;
   } catch (error) {
     throw new Error(error.response.data.error);
   }

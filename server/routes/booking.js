@@ -39,3 +39,4 @@ router.post('/createBooking', createBooking);
 router.get('/checkForClashes/:carId', checkForClashes);
 
 module.exports = router;
+
