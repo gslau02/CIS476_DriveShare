@@ -32,7 +32,7 @@ const ListCarPage = () => {
 
   return (
     <div>
-      <h2>List Your Car for Sale</h2>
+      <h2>List Your Car for Rent</h2>
       <form onSubmit={handleSubmit}>
         <input type="text" name="make" value={formData.make} onChange={handleChange} placeholder="Make" required />
         <input type="text" name="model" value={formData.model} onChange={handleChange} placeholder="Model" required />
