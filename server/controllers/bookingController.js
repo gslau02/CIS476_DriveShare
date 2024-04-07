@@ -26,8 +26,8 @@ const Booking = require('../models/Booking');
 
 const createBooking = async (req, res) => {
   try {
-    const { renter, carId, startDate, endDate } = req.body;
-    const booking = new Booking({ renter, carId, startDate, endDate, status: 'ACTIVE', paymentStatus: 'UNPAID' });
+    const { renterId, carId, startDate, endDate } = req.body;
+    const booking = new Booking({ renterId, carId, startDate, endDate, status: 'REQUESTED' });
     await booking.save();
     res.status(201).json({ message: 'Booking created successfully' });
   } catch (error) {

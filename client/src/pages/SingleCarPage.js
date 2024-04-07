@@ -105,7 +105,7 @@ const SingleCarPage = () => {
       await axios.post('http://localhost:3001/booking/createBooking', {
         ...bookingData,
         carId: car._id,
-        renter: localStorage.getItem("userId")
+        renterId: localStorage.getItem("userId")
       });
       alert('Booking created successfully!');
     } catch (error) {
