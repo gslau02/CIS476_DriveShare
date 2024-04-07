@@ -14,6 +14,7 @@ import MyBookingsPage from '../pages/MyBookingsPage';
 import MyOrdersPage from '../pages/MyOrdersPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import PaymentPage from '../pages/PaymentPage';
+import InboxPage from '../pages/InboxPage';
 import ChatRoomPage from '../pages/ChatRoomPage';
 
 const AppRouter = () => {
@@ -33,6 +34,7 @@ const AppRouter = () => {
         <Route path="/listCar" element={<ListCarPage />} />
         <Route path="/editCar/:carId" element={<EditCarPage />} />
         <Route path="/payment" element={<PaymentPage />}/>
+        <Route path="/inbox" element={<InboxPage />} />
         <Route path="/chat/:receiverId" element={<ChatRoomPage />} />
       </Routes>
     </Router>
