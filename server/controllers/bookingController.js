@@ -106,7 +106,6 @@ const fetchOrdersByOwner = async (req, res) => {
     const owner = await User.findById(userId);
     const car = await Car.findOne({ owner: owner._id }).select('make model year pickUpLocation owner');
     const allOrders = await Booking.find({ carId: car._id });
-    console.log(allOrders);
 
     const now = new Date();
     const activeOrders = await Promise.all(
@@ -117,7 +116,6 @@ const fetchOrdersByOwner = async (req, res) => {
           return { ...order.toObject(), car, renter };
         })
     );
-    console.log(activeOrders);
 
     const pastOrders = await Promise.all(
       allOrders
@@ -135,10 +133,56 @@ const fetchOrdersByOwner = async (req, res) => {
   }
 };
 
+const postRenterReview = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+    const { rating, feedback } = req.body;
+
+    // Find the booking by ID
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    // Update the booking with the review data
+    booking.renterReview = { rating, feedback };
+    await booking.save();
+
+    res.status(200).json({ message: 'Review submitted successfully' });
+  } catch (error) {
+    console.error('Error submitting review:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+const postOnwerReview = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { rating, feedback } = req.body;
+
+    // Find the booking by ID
+    const order = await Booking.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    // Update the booking with the review data
+    order.ownerReview = { rating, feedback };
+    await order.save();
+
+    res.status(200).json({ message: 'Review submitted successfully' });
+  } catch (error) {
+    console.error('Error submitting review:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   createBooking,
   checkForClashes,
   activateBooking,
   fetchBookingsByUser,
-  fetchOrdersByOwner
+  fetchOrdersByOwner,
+  postRenterReview,
+  postOnwerReview
 }
