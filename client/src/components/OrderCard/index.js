@@ -5,12 +5,12 @@ import './style.css';
 const OrderCard = ({ order }) => {
   const navigate = useNavigate();
 
-  const handleCardClick = () => {
-    navigate('/orders/${order._id}');
+  const handleContactCustomer = () => {
+    navigate(`/chat/${order.renter._id}`);
   };
 
   return (
-    <div className="order-card" onClick={handleCardClick}>
+    <div className="order-card">
       <h3>{order.car.make} {order.car.model} {order.car.year}</h3>
       <p>Customer: {order.renter.name}</p>
       <p>Pickup Locaation: {order.car.pickUpLocation}</p>
@@ -31,6 +31,9 @@ const OrderCard = ({ order }) => {
           <p>Feedback: {order.renterReview.feedback}</p>
         </div>
       ): null } 
+      {(order.status === 'REQUESTED' || order.status === 'ACTIVE') && (
+        <button onClick={handleContactCustomer}>Contact Customer</button>
+      )}
       {/* You can include additional information about the order here */}
     </div>
   );

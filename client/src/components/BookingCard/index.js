@@ -5,12 +5,12 @@ import './style.css';
 const BookingCard = ({ booking }) => {
   const navigate = useNavigate();
 
-  const handleCardClick = () => {
-    navigate('/bookings/${booking._id}');
+  const handleContactOwner = () => {
+    navigate(`/chat/${booking.owner._id}`);
   };
 
   return (
-    <div className="booking-card" onClick={handleCardClick}>
+    <div className="booking-card">
       <h3>{booking.car.make} {booking.car.model} {booking.car.year}</h3>
       <p>Car Owner: {booking.owner.name}</p>
       <p>Pickup Locaation: {booking.car.pickUpLocation}</p>
@@ -31,6 +31,9 @@ const BookingCard = ({ booking }) => {
           <p>Feedback: {booking.ownerReview.feedback}</p>
         </div>
       ): null } 
+      {(booking.status === 'REQUESTED' || booking.status === 'ACTIVE') && (
+        <button onClick={handleContactOwner}>Contact Car Owner</button>
+      )}
       {/* You can include additional information about the booking here */}
     </div>
   );

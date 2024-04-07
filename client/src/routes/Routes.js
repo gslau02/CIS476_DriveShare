@@ -14,6 +14,7 @@ import MyBookingsPage from '../pages/MyBookingsPage';
 import MyOrdersPage from '../pages/MyOrdersPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import PaymentPage from '../pages/PaymentPage';
+import ChatRoomPage from '../pages/ChatRoomPage';
 
 const AppRouter = () => {
   return (
@@ -32,6 +33,7 @@ const AppRouter = () => {
         <Route path="/listCar" element={<ListCarPage />} />
         <Route path="/editCar/:carId" element={<EditCarPage />} />
         <Route path="/payment" element={<PaymentPage />}/>
+        <Route path="/chat/:receiverId" element={<ChatRoomPage />} />
       </Routes>
     </Router>
   );

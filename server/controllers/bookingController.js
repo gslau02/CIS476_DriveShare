@@ -104,7 +104,7 @@ const fetchBookingsByUser = async (req, res) => {
         .filter(booking => booking.endDate <= now)
         .map(async booking => {
           const car = await Car.findById(booking.carId).select('make model year pickUpLocation owner');
-          const owner = await User.findById(car.owner).select('name');
+          const owner = await User.findById(car.owner).select('name _id');
           return { ...booking.toObject(), car, owner };
         })
     );
@@ -128,7 +128,7 @@ const fetchOrdersByOwner = async (req, res) => {
       allOrders
         .filter(order => order.endDate > now)
         .map(async order => {
-          const renter = await User.findById(order.renterId).select('email');
+          const renter = await User.findById(order.renterId).select('email _id');
           return { ...order.toObject(), car, renter };
         })
     );
