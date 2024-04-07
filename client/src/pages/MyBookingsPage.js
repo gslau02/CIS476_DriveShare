@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import BookingCard from '../components/BookingCard';
 import { fetchBookingsByUser } from '../utils/booking';
 

@@ -24,6 +24,7 @@ const HomePage = () => {
       <h1>Welcome to DriveShare</h1>
       <nav>
         <button onClick={() => navigate('/myBookings')}>My Bookings</button>
+        <button onClick={() => navigate('/myOrders')}>My Orders</button>
         <button onClick={() => navigate('/myListings')}>My Listings</button>
         <button onClick={() => navigate('/inbox')}>Inbox</button>
         <button onClick={handleLogout}>Logout</button>
