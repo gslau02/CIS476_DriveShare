@@ -5,22 +5,19 @@ import BookingCard from '../components/BookingCard';
 const MyBookingsPage = () => {
   const [currentTab, setCurrentTab] = useState('active');
   const [activeBookings, setActiveBookings] = useState([]);
-  const [bookingHistory, setBookingHistory] = useState([]);
+  const [historyBookings, setHistoryBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const userId = localStorage.getItem('userId');
-        const activeResponse = await axios.get(`/bookings/active/${userId}`);
-        const historyResponse = await axios.get(`/bookings/history/${userId}`);
+        const activeResponse = await axios.get('http://localhost:3001/bookings/active');
+        const historyResponse = await axios.get('http://localhost:3001/bookings/history');
         setActiveBookings(activeResponse.data);
-        setBookingHistory(historyResponse.data);
-        setLoading(false);
+        setHistoryBookings(historyResponse.data);
       } catch (error) {
         console.error('Failed to load bookings:', error);
-        setError('Failed to load bookings');
+      } finally {
         setLoading(false);
       }
     };
@@ -28,32 +25,35 @@ const MyBookingsPage = () => {
     fetchBookings();
   }, []);
 
-  if (loading) return <div>Loading bookings...</div>;
-  if (error) return <div>{error}</div>;
-
   return (
     <div>
-      <h2>Your Bookings</h2>
-      <button onClick={() => setCurrentTab('active')}>
-        Active
-      </button>
-      <button onClick={() => setCurrentTab('history')}>
-        History
-      </button>
+      <h2>My Bookings</h2>
+      <div className="tabs">
+        <button onClick={() => setCurrentTab('active')}>Active</button>
+        <button onClick={() => setCurrentTab('history')}>History</button>
+      </div>
 
-      {(currentTab === 'active' && activeBookings.length === 0) && (
-        <p>No active bookings found.</p>
-      )}
-      {(currentTab === 'history' && bookingHistory.length === 0) && (
-        <p>No booking history found.</p>
-      )}
+      {loading ? (
+        <div>Loading bookings...</div>
+      ) : (
+        <>
+          {currentTab === 'active' && activeBookings.length === 0 ? (
+            <p>No active bookings found.</p>
+          ) : null}
+          {currentTab === 'history' && historyBookings.length === 0 ? (
+            <p>No booking history found.</p>
+          ) : null}
 
-      {currentTab === 'active' && activeBookings.map(booking => 
-        <BookingCard key={booking._id} booking={booking} />
-      )}
+          {currentTab === 'active' &&
+            activeBookings.map((booking) => (
+              <BookingCard key={booking._id} booking={booking} />
+            ))}
 
-      {currentTab === 'history' && bookingHistory.map(booking => 
-        <BookingCard key={booking._id} booking={booking} />
+          {currentTab === 'history' &&
+            historyBookings.map((booking) => (
+              <BookingCard key={booking._id} booking={booking} />
+            ))}
+        </>
       )}
     </div>
   );
