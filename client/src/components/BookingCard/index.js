@@ -12,7 +12,7 @@ const BookingCard = ({ booking }) => {
   return (
     <div className="booking-card" onClick={handleCardClick}>
       <h3>{booking.car.make} {booking.car.model} {booking.car.year}</h3>
-      <p>Car Owner: {booking.owner.email}</p>
+      <p>Car Owner: {booking.owner.name}</p>
       <p>Pickup Locaation: {booking.car.pickUpLocation}</p>
       <p>Start Date: {booking.startDate}</p>
       <p>End Date: {booking.endDate}</p>

@@ -14,6 +14,7 @@ const MyListingsPage = () => {
         if (userId) {
           const response = await axios.get(`http://localhost:3001/car/listUserCarListings/${userId}`);
           setCarListings(response.data);
+          (response.data.length === 0) ? localStorage.setItem('isCarOwner', false) : localStorage.setItem('isCarOwner', true);          
         } else {
           console.error('User ID not found in localStorage');
         }

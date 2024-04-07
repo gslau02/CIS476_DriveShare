@@ -34,7 +34,6 @@
 
 
 import React from 'react';
-import axios from 'axios';
 import PaymentProxy from '../components/PaymentProxy';
 
 const PaymentPage = ({ bookingData, car, bookingId }) => {

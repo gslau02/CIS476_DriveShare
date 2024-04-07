@@ -1,6 +1,6 @@
 // ListCarPage.js
 import React, { useState } from 'react';
-import axios from 'axios';
+import { listCarForRent } from '../utils/car';
 
 const ListCarPage = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +22,7 @@ const ListCarPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/car/listCarForRent', formData);
+      await listCarForRent(formData);
       alert('Car listed successfully!');
     } catch (error) {
       console.error(error.message);

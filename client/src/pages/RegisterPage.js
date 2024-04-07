@@ -6,6 +6,7 @@ const RegisterPage = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    name: '',
     securityQuestion1: { question: 'What is the name of your first pet?', answer: '' },
     securityQuestion2: { question: 'In what city were you born?', answer: '' },
     securityQuestion3: { question: 'What is the name of your favorite teacher?', answer: '' }
@@ -42,6 +43,10 @@ const RegisterPage = () => {
     <div>
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
+        </label>
         <label>
           Email:
           <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />

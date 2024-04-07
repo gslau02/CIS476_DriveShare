@@ -1,5 +1,6 @@
 // carController.js
 const { Car, CarBuilder } = require('../models/Car');
+const User = require('../models/User');
 
 const listCarForRent = async (req, res) => {
     try {
@@ -17,6 +18,12 @@ const listCarForRent = async (req, res) => {
         .build();
   
       await car.save();
+
+      const ownerUser = await User.findById(owner);
+      if (ownerUser) {
+        ownerUser.isCarOwner = true;
+        await ownerUser.save();
+      }
   
       return res.status(201).json({
         message: "Car listed for rent successfully!",

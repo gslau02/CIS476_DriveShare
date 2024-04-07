@@ -9,7 +9,6 @@ export const registerUser = async (userData) => {
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('sessionToken', response.data.sessionToken);
     }
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.error);
@@ -23,7 +22,6 @@ export const authenticateUser = async (userData) => {
       localStorage.setItem('userId', response.data.userId);
       localStorage.setItem('sessionToken', response.data.sessionToken);
     }
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.error);
