@@ -1,16 +1,29 @@
+const cron = require('node-cron');
+
 const Booking = require('../models/Booking');
 const User = require('../models/User');
+const Notification = require('../models/Notification');
 const { Car } = require('../models/Car');
+const NotificationObserver = require('../observer/NotificationObserver');
+// Create an instance of NotificationObserver
+const notificationObserver = new NotificationObserver();
 
 const createBooking = async (req, res) => {
   try {
-    const { renterId, carId, startDate, endDate } = req.body;
+    const { renterId, carId, startDate, endDate, ownerId } = req.body;
     const booking = new Booking({ renterId, carId, startDate, endDate, status: 'REQUESTED' });
     await booking.save();
     await updateBookingStatus();
     
     // Extract the ID of the newly created booking
     const bookingId = booking._id;
+
+    // Notify observers
+    notificationObserver.update(renterId, 'Your booking was successful');
+    notificationObserver.update(ownerId, 'Your car has been booked');
+
+    // await Notification.create({ recipient: renterId, message: 'Your booking was successful' });
+    // await Notification.create({ recipient: ownerId, message: 'Your car has been booked' });
 
     // Send the booking ID in the response
     res.status(201).json({ bookingId, message: 'Booking created successfully' });
@@ -55,6 +68,9 @@ const updateBookingStatus = async () => {
     console.error('Error updating booking status:', error);
   }
 };
+
+// Schedule the updateBookingStatus function to run every minute
+cron.schedule('* * * * *', updateBookingStatus);
 
 const activateBooking = async (req, res) => {
   try {

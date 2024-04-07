@@ -14,12 +14,14 @@ const SingleCarPage = () => {
     endDate: ''
   });
   const [bookingCreated, setBookingCreated] = useState(false);
+  const [carOwnerId, setCarOwnerId] = useState(null);
 
   useEffect(() => {
     const fetchCar = async () => {
       try {
         const fetchedCar = await fetchSingleCar(carId);
         setCar(fetchedCar);
+        setCarOwnerId(fetchedCar.owner);
       } catch (error) {
         console.error('Error fetching car:', error);
       }
@@ -71,7 +73,8 @@ const SingleCarPage = () => {
       const response = await axios.post('http://localhost:3001/booking/createBooking', {
         ...bookingData,
         carId: car._id,
-        renterId: localStorage.getItem("userId")
+        renterId: localStorage.getItem("userId"),
+        ownerId: carOwnerId
       });
       const { bookingId } = response.data;
       alert('Booking created successfully!');
