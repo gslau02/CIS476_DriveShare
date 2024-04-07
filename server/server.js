@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const carRoutes = require('./routes/car');
 const bookingRoutes = require('./routes/booking');
+const notificationRoutes = require('./routes/notification')
 
 // Create an Express app
 const app = express();
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use('/auth', authRoutes);
 app.use('/car', carRoutes);
 app.use('/booking', bookingRoutes);
+app.use('/notification', notificationRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3001;

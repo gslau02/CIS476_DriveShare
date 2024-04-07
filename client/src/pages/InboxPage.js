@@ -73,7 +73,10 @@ const InboxPage = () => {
         </div>
       )}
       {selectedTab === 'notifications' && (
-        <NotificationList notifications={notifications} />
+        <NotificationList 
+          // notifications={notifications} 
+          userId = {localStorage.getItem("userId")}
+        />
       )}
     </div>
   );
