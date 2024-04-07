@@ -100,9 +100,45 @@ const fetchBookingsByUser = async (req, res) => {
   }
 };
 
+const fetchOrdersByOwner = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const owner = await User.findById(userId);
+    const car = await Car.findOne({ owner: owner._id }).select('make model year pickUpLocation owner');
+    const allOrders = await Booking.find({ carId: car._id });
+    console.log(allOrders);
+
+    const now = new Date();
+    const activeOrders = await Promise.all(
+      allOrders
+        .filter(order => order.endDate > now)
+        .map(async order => {
+          const renter = await User.findById(order.renterId).select('email');
+          return { ...order.toObject(), car, renter };
+        })
+    );
+    console.log(activeOrders);
+
+    const pastOrders = await Promise.all(
+      allOrders
+        .filter(order => order.endDate <= now)
+        .map(async order => {
+          const renter = await User.findById(order.renterId).select('email');
+          return { ...order.toObject(), car, renter };
+        })
+    );
+
+    res.json({ activeOrders, pastOrders });
+  } catch (error) {
+    console.error('Error retrieving orders:', error);
+    res.status(500).json({ message: 'Error retrieving orders' });
+  }
+};
+
 module.exports = {
   createBooking,
   checkForClashes,
   activateBooking,
-  fetchBookingsByUser
+  fetchBookingsByUser,
+  fetchOrdersByOwner
 }
