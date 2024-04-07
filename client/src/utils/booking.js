@@ -23,3 +23,21 @@ export const fetchOrdersByOwner = async (userId) => {
     throw error;
   }
 };
+
+export const postRenterReview = async (bookingId, rating, feedback) => {
+  try {
+    await axios.put(`${BASE_URL}/postRenterReview/${bookingId}`, { rating, feedback });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export const postOwnerReview = async (orderId, rating, feedback) => {
+  try {
+    await axios.put(`${BASE_URL}/postOwnerReview/${orderId}`, { rating, feedback });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

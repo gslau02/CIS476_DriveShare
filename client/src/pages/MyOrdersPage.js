@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import OrderCard from '../components/OrderCard';
-import { fetchOrdersByOwner } from '../utils/booking';
+import { fetchOrdersByOwner, postOwnerReview } from '../utils/booking';
 
 const MyOrdersPage = () => {
   const userId = localStorage.getItem('userId');
@@ -8,6 +8,7 @@ const MyOrdersPage = () => {
   const [activeOrders, setactiveOrders] = useState([]);
   const [historyOrders, setHistoryOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reviewData, setReviewData] = useState({});
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -24,6 +25,36 @@ const MyOrdersPage = () => {
 
     fetchOrders();
   }, []);
+
+  const handleReviewChange = (orderId, key, value) => {
+    setReviewData({
+      ...reviewData,
+      [orderId]: {
+        ...reviewData[orderId],
+        [key]: value,
+      },
+    });
+  };
+
+  const handleReviewSubmit = async (orderId) => {
+    const { rating, feedback } = reviewData[orderId] || {};
+    if (!rating || !feedback || isNaN(rating) || rating < 0 || rating > 5) {
+      alert('Please provide a valid rating (0-5) and feedback before submitting.');
+      return;
+    }
+    try {
+      await postOwnerReview(orderId, rating, feedback);
+      const updatedHistoryOrders = historyOrders.map((order) => {
+        order.ownerReview.rating = rating;
+        order.ownerReview.feedback = feedback;
+        alert('Thank you for submitting your review!');
+        return order;
+      });
+      setHistoryOrders(updatedHistoryOrders);
+    } catch (error) {
+      console.error('Failed to submit review:', error);
+    }
+  };
 
   return (
     <div>
@@ -51,7 +82,31 @@ const MyOrdersPage = () => {
 
           {currentTab === 'history' &&
             historyOrders.map((order) => (
-              <OrderCard key={order._id} order={order} />
+              <div key={order._id}>
+                <OrderCard order={order} />
+                {order.status === 'COMPLETED' && order.ownerReview.rating === null ? (
+                  <div>
+                    <label htmlFor={`rating-${order._id}`}>Rating:</label>
+                    <input
+                      type="number"
+                      id={`rating-${order._id}`}
+                      required
+                      min="0"
+                      max="5"
+                      value={reviewData[order._id]?.rating || ''}
+                      onChange={(e) => handleReviewChange(order._id, 'rating', e.target.value)}
+                    />
+                    <label htmlFor={`feedback-${order._id}`}>Feedback:</label>
+                    <textarea
+                      id={`feedback-${order._id}`}
+                      required
+                      value={reviewData[order._id]?.feedback || ''}
+                      onChange={(e) => handleReviewChange(order._id, 'feedback', e.target.value)}
+                    />
+                    <button onClick={() => handleReviewSubmit(order._id)}>Submit Review</button>
+                  </div>
+                ) : null}
+              </div>
             ))}
         </>
       )}
