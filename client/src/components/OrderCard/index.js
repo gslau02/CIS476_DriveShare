@@ -12,7 +12,7 @@ const OrderCard = ({ order }) => {
   return (
     <div className="order-card" onClick={handleCardClick}>
       <h3>{order.car.make} {order.car.model} {order.car.year}</h3>
-      <p>Car Owner: {order.renter.email}</p>
+      <p>Customer: {order.renter.email}</p>
       <p>Pickup Locaation: {order.car.pickUpLocation}</p>
       <p>Start Date: {order.startDate}</p>
       <p>End Date: {order.endDate}</p>
