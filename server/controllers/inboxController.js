@@ -11,6 +11,18 @@ const fetchMessages = async (req, res) => {
   }
 };
 
+const createMessage = async (req, res) => {
+  try {
+    const { sender, recipient, content } = req.body;
+    const message = new Message({ sender, recipient, content });
+    await message.save();
+    res.status(201).json({ message: 'Message sent successfully' });
+  } catch (error) {
+    console.error('Error creating message:', error);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
+};
+
 const fetchNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find().sort({ createdAt: -1 });
@@ -23,5 +35,6 @@ const fetchNotifications = async (req, res) => {
 
 module.exports = {
   fetchMessages,
-  fetchNotifications
+  fetchNotifications,
+  createMessage
 };
