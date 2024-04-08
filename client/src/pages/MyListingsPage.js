@@ -1,7 +1,10 @@
 // MyListingsPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import defaultCarImage from '../assets/images/default_car.jpg';
+import locationIcon from '../assets/images/location.png';
+import ButtonLink from '../components/ButtonLink/ButtonLink';
 
 const MyListingsPage = () => {
   const navigate = useNavigate();
@@ -38,20 +41,27 @@ const MyListingsPage = () => {
   };
 
   return (
-    <div>
+    <div style={{textAlign: 'center'}}>
       <h2>My Car Listings</h2>
-      <button onClick={() => navigate('/listCar')}>List a Car</button>
-      <div>
+      <button style={{ width: '610px' }} onClick={() => navigate('/listCar')}>List New Car</button>
+      <div style={{ textAlign: '-webkit-center' }}>
         {carListings.map((car, index) => (
-          <div key={index}>
-            <h2>{car.make} {car.model} {car.year}</h2>
-            <p>Mileage: {car.mileage}</p>
-            <p>Rental Pricing: {car.rentalPricing}</p>
-            <p>Pick Up Location: {car.pickUpLocation}</p>
-            <p>Availability Start Date: {car.availability.startDate.slice(0, 10)}</p>
-            <p>Availability End Date: {car.availability.endDate.slice(0, 10)}</p>
-            <Link to={`/editCar/${car._id}`}>Edit</Link>
-            <button onClick={() => handleDelete(car._id)}>Delete</button>
+          <div key={index} className="car-card">
+            <div className="car-image-container">
+              <img src={defaultCarImage} alt={`${car.make} ${car.model}`} className="car-image" />
+              <div className="price-tag">${car.rentalPricing}/day</div>
+            </div>
+            <div className="car-details">
+              <h3>{car.make} {car.model} {car.year}</h3>
+              <p>Mileage: {car.mileage} miles</p>
+              <div style={{display: 'flex'}}>
+                <img src={locationIcon} className="car-location-image" />
+                <p>{car.pickUpLocation}</p>
+              </div>
+              <p>Available from {car.availability.startDate.substring(0, 10)} to {car.availability.endDate.substring(0, 10)}</p>
+              <ButtonLink to={`/editCar/${car._id}`}>Edit</ButtonLink>
+              <button onClick={() => handleDelete(car._id)}>Delete</button>
+            </div>
           </div>
         ))}
       </div>

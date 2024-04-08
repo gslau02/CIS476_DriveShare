@@ -32,8 +32,8 @@ const ListCarPage = () => {
 
   return (
     <div>
-      <h2>List Your Car for Rent</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='form-container'>
+        <h2>List Your Car for Rent</h2>
         <input type="text" name="make" value={formData.make} onChange={handleChange} placeholder="Make" required />
         <input type="text" name="model" value={formData.model} onChange={handleChange} placeholder="Model" required />
         <input type="text" name="year" value={formData.year} onChange={handleChange} placeholder="Year" required />

@@ -46,19 +46,20 @@ const EditCarPage = () => {
 
   return (
     <div>
-      <h1>Edit Car Listing</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Make:</label>
+      
+      <form className='form-container' onSubmit={handleSubmit}>
+        <h2>Edit Car Listing</h2>
+        <p>Make:</p>
         <input type="text" name="make" value={car.make} onChange={handleChange} />
-        <label>Model:</label>
+        <p>Model:</p>
         <input type="text" name="model" value={car.model} onChange={handleChange} />
-        <label>Year:</label>
+        <p>Year:</p>
         <input type="number" name="year" value={car.year} onChange={handleChange} />
-        <label>Mileage:</label>
+        <p>Mileage:</p>
         <input type="text" name="mileage" value={car.mileage} onChange={handleChange} />
-        <label>Rental Pricing:</label>
+        <p>Rental Pricing:</p>
         <input type="text" name="rentalPricing" value={car.rentalPricing} onChange={handleChange} />
-        <label>Pick Up Location:</label>
+        <p>Pick Up Location:</p>
         <input type="text" name="pickUpLocation" value={car.pickUpLocation} onChange={handleChange} />
         {/* Add input fields for availability if needed */}
         <button type="submit">Update Car</button>
