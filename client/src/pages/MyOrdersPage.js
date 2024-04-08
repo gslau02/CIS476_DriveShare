@@ -93,19 +93,25 @@ const MyOrdersPage = () => {
               <div key={order._id}>
                 <OrderCard order={order} />
                 {order.status === 'COMPLETED' && order.ownerReview.rating === null ? (
-                  <div>
+                  <div className='review-card'>
                     <label htmlFor={`rating-${order._id}`}>Rating:</label>
-                    <input
-                      type="number"
-                      id={`rating-${order._id}`}
-                      required
-                      min="0"
-                      max="5"
-                      value={reviewData[order._id]?.rating || ''}
-                      onChange={(e) => handleReviewChange(order._id, 'rating', e.target.value)}
-                    />
+                    <div className="star-rating">
+                      {[...Array(5)].map((_, index) => (
+                        <label key={index}>
+                          <input
+                            type="radio"
+                            name={`rating-${order._id}`}
+                            value={index + 1}
+                            checked={reviewData[order._id]?.rating === index + 1}
+                            onChange={(e) => handleReviewChange(order._id, 'rating', parseInt(e.target.value))}
+                          />
+                          <span className="star">&#9733;</span>
+                        </label>
+                      ))}
+                    </div>
                     <label htmlFor={`feedback-${order._id}`}>Feedback:</label>
                     <textarea
+                      style={{margin: '0px 10px 0px 10px'}}
                       id={`feedback-${order._id}`}
                       required
                       value={reviewData[order._id]?.feedback || ''}

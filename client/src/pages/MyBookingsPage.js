@@ -93,26 +93,33 @@ const MyBookingsPage = () => {
               <div key={booking._id}>
                 <BookingCard booking={booking} />
                 {booking.status === 'COMPLETED' && booking.renterReview.rating === null ? (
-                  <div>
-                    <label htmlFor={`rating-${booking._id}`}>Rating:</label>
-                    <input
-                      type="number"
-                      id={`rating-${booking._id}`}
-                      required
-                      min="0"
-                      max="5"
-                      value={reviewData[booking._id]?.rating || ''}
-                      onChange={(e) => handleReviewChange(booking._id, 'rating', e.target.value)}
-                    />
-                    <label htmlFor={`feedback-${booking._id}`}>Feedback:</label>
-                    <textarea
-                      id={`feedback-${booking._id}`}
-                      required
-                      value={reviewData[booking._id]?.feedback || ''}
-                      onChange={(e) => handleReviewChange(booking._id, 'feedback', e.target.value)}
-                    />
-                    <button onClick={() => handleReviewSubmit(booking._id)}>Submit Review</button>
+                <div className='review-card'>
+                  <label htmlFor={`rating-${booking._id}`}>Rating:</label>
+                  <div className="star-rating">
+                    {[...Array(5)].map((_, index) => (
+                      <label key={index}>
+                        <input
+                          type="radio"
+                          name={`rating-${booking._id}`}
+                          value={index + 1}
+                          checked={reviewData[booking._id]?.rating === index + 1}
+                          onChange={(e) => handleReviewChange(booking._id, 'rating', parseInt(e.target.value))}
+                        />
+                        <span className="star">&#9733;</span>
+                      </label>
+                    ))}
                   </div>
+                  <label htmlFor={`feedback-${booking._id}`}>Feedback:</label>
+                  <textarea
+                    style={{margin: '0px 10px 0px 10px'}}
+                    id={`feedback-${booking._id}`}
+                    required
+                    value={reviewData[booking._id]?.feedback || ''}
+                    onChange={(e) => handleReviewChange(booking._id, 'feedback', e.target.value)}
+                  />
+                  <button onClick={() => handleReviewSubmit(booking._id)}>Submit Review</button>
+                </div>
+                
                 ) : null}
               </div>
             ))}

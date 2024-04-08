@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './style.css';
 import defaultCarImage from '../../assets/images/default_car.jpg';
 import locationIcon from '../../assets/images/location.png';
+import RatingStars from '../RatingStars/RatingStars';
 
 const OrderCard = ({ order }) => {
   const navigate = useNavigate();
@@ -28,15 +29,15 @@ const OrderCard = ({ order }) => {
         {order.status === 'COMPLETED' && order.ownerReview.rating ? (
           <div>
             <p>My Review: </p>
-            <p>Rating: {order.ownerReview.rating}</p>
-            <p>Feedback: {order.ownerReview.feedback}</p>
+            <p><RatingStars rating={order.ownerReview.rating} /></p>
+            <p>"{order.ownerReview.feedback}"</p>
           </div>
         ): null } 
         {order.status === 'COMPLETED' && order.renterReview.rating ? (
           <div>
             <p>Review from Customer: </p>
-            <p>Rating: {order.renterReview.rating}</p>
-            <p>Feedback: {order.renterReview.feedback}</p>
+            <p><RatingStars rating={order.renterReview.rating} /></p>
+            <p>"{order.renterReview.feedback}"</p>
           </div>
         ): null } 
         {(order.status === 'REQUESTED' || order.status === 'ACTIVE') && (

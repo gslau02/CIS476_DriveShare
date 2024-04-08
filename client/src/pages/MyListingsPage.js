@@ -39,13 +39,12 @@ const MyListingsPage = () => {
 
   return (
     <div>
-      <h1>My Car Listings</h1>
+      <h2>My Car Listings</h2>
       <button onClick={() => navigate('/listCar')}>List a Car</button>
       <div>
         {carListings.map((car, index) => (
           <div key={index}>
-            <h2>{car.make} {car.model}</h2>
-            <p>Year: {car.year}</p>
+            <h2>{car.make} {car.model} {car.year}</h2>
             <p>Mileage: {car.mileage}</p>
             <p>Rental Pricing: {car.rentalPricing}</p>
             <p>Pick Up Location: {car.pickUpLocation}</p>

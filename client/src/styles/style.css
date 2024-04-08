@@ -85,3 +85,30 @@ nav button:focus {
 .tabs button {
   margin: 0 10px;
 }
+
+.star-rating {
+  display: inline-block;
+  margin: 5px 10px 5px 10px;
+}
+
+.star {
+  cursor: pointer;
+  color: #ccc;
+  font-size: 1.5rem;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + .star {
+  color: #f90;
+}
+
+.review-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: max-content;
+  border-radius: 10px;
+}

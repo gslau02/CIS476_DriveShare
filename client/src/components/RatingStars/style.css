@@ -1,0 +1,11 @@
+.star {
+  color: gray;
+}
+
+.filled {
+  color: rgb(255, 145, 0);
+}
+
+.star-container {
+  font-size: 24px;
+}
