@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { fetchSingleCar } from '../utils/car';
 import PaymentPage from './PaymentPage';
+import defaultCarImage from '../assets/images/default_car.jpg';
+import locationIcon from '../assets/images/location.png';
 
 const SingleCarPage = () => {
   const { carId } = useParams();
@@ -107,16 +109,21 @@ const SingleCarPage = () => {
   }
 
   return (
-    <div>
+    <div style={{ textAlign: '-webkit-center' }}>
       {car && (
-        <div>
-          <h2>{car.make} {car.model}</h2>
-          <p>Year: {car.year}</p>
+        <div className="car-card">
+          <div className="car-image-container">
+          <img src={defaultCarImage} alt={`${car.make} ${car.model}`} className="car-image" />
+          <div className="price-tag">${car.rentalPricing}/day</div>
+        </div>
+        <div className="car-details">
+          <h2>{car.make} {car.model} {car.year}</h2>
           <p>Mileage: {car.mileage}</p>
-          <p>Rental Pricing: {car.rentalPricing}</p>
-          <p>Pick Up Location: {car.pickUpLocation}</p>
-          <p>Available from: {car.availability.startDate}</p>
-          <p>Available until: {car.availability.endDate}</p>
+          <div style={{display: 'flex'}}>
+            <img src={locationIcon} alt={`${car.make} ${car.model}`} className="car-location-image" />
+            <p>{car.pickUpLocation}</p>
+          </div>
+          <p>Available from {car.availability.startDate.substring(0, 10)} to {car.availability.endDate.substring(0, 10)}</p>
           <form onSubmit={handleSubmit}>
             <input 
               type="date" 
@@ -140,6 +147,7 @@ const SingleCarPage = () => {
             />
             <button type="submit">Book Car</button>
           </form>
+        </div>
         </div>
       )}
       {/* Redirect to Payment page after booking created */}

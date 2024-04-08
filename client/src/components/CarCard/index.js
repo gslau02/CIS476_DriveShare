@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './style.css';
+import defaultCarImage from '../../assets/images/default_car.jpg';
+import locationIcon from '../../assets/images/location.png';
 
 const CarCard = ({ car }) => {
   const navigate = useNavigate();
@@ -11,13 +13,19 @@ const CarCard = ({ car }) => {
 
   return (
     <div className="car-card" onClick={handleCardClick}>
-      <h3>{car.make} {car.model}</h3>
-      <p>Year: {car.year}</p>
-      <p>Mileage: {car.mileage}</p>
-      <p>Rental Pricing: ${car.rentalPricing}/day</p>
-      <p>Pick Up Location: {car.pickUpLocation}</p>
-      <p>Available Start Date: {car.availability.startDate}</p>
-      <p>Available End Date: {car.availability.endDate}</p>
+      <div className="car-image-container">
+        <img src={defaultCarImage} alt={`${car.make} ${car.model}`} className="car-image" />
+        <div className="price-tag">${car.rentalPricing}/day</div>
+      </div>
+      <div className="car-details">
+        <h3>{car.make} {car.model} {car.year}</h3>
+        <p>Mileage: {car.mileage} miles</p>
+        <div style={{display: 'flex'}}>
+          <img src={locationIcon} className="car-location-image" />
+          <p>{car.pickUpLocation}</p>
+        </div>
+        <p>Available from {car.availability.startDate.substring(0, 10)} to {car.availability.endDate.substring(0, 10)}</p>
+      </div>
     </div>
   );
 };

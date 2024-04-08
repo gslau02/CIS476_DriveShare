@@ -45,19 +45,27 @@ const MyOrdersPage = () => {
     try {
       await postOwnerReview(orderId, rating, feedback);
       const updatedHistoryOrders = historyOrders.map((order) => {
-        order.ownerReview.rating = rating;
-        order.ownerReview.feedback = feedback;
-        alert('Thank you for submitting your review!');
-        return order;
+        if (order._id === orderId) {
+          return {
+            ...order,
+            ownerReview: {
+              rating: rating,
+              feedback: feedback,
+            },
+          };
+        } else {
+          return order;
+        }
       });
       setHistoryOrders(updatedHistoryOrders);
+      alert('Thank you for submitting your review!');
     } catch (error) {
       console.error('Failed to submit review:', error);
     }
   };
 
   return (
-    <div>
+    <div style={{ textAlign: '-webkit-center'}}>
       <h2>My Orders</h2>
       <div className="tabs">
         <button onClick={() => setCurrentTab('active')}>Active</button>

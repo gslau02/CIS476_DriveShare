@@ -1,8 +1,8 @@
-// HomePage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../utils/auth';
 import AllCarsPage from './AllCarsPage';
+import '../styles/style.css';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>Welcome to DriveShare</h1>
       <nav>
         <button onClick={() => navigate('/myBookings')}>My Bookings</button>
         {isCarOwner === 'true' && <button onClick={() => navigate('/myOrders')}>My Orders</button>}
@@ -31,7 +30,6 @@ const HomePage = () => {
         <button onClick={handleLogout}>Logout</button>
       </nav>
       <AllCarsPage />
-      {/* ... other content ... */}
     </div>
   );
 };

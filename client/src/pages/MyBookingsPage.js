@@ -45,19 +45,27 @@ const MyBookingsPage = () => {
     try {
       await postRenterReview(bookingId, rating, feedback);
       const updatedHistoryBookings = historyBookings.map((booking) => {
-        booking.renterReview.rating = rating;
-        booking.renterReview.feedback = feedback;
-        alert('Thank you for submitting your review!');
-        return booking;
+        if (booking._id === bookingId) {
+          return {
+            ...booking,
+            renterReview: {
+              rating: rating,
+              feedback: feedback,
+            },
+          };
+        } else {
+          return booking;
+        }
       });
       setHistoryBookings(updatedHistoryBookings);
+      alert('Thank you for submitting your review!');
     } catch (error) {
       console.error('Failed to submit review:', error);
     }
   };
 
   return (
-    <div>
+    <div style={{ textAlign: '-webkit-center'}}>
       <h2>My Bookings</h2>
       <div className="tabs">
         <button onClick={() => setCurrentTab('active')}>Active</button>
