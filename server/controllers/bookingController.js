@@ -6,7 +6,9 @@ const Notification = require('../models/Notification');
 const { Car } = require('../models/Car');
 const NotificationObserver = require('../observer/NotificationObserver');
 // Create an instance of NotificationObserver
-const notificationObserver = new NotificationObserver();
+const Subject = require('../observer/Subject');
+const BookingSubject = new Subject();
+const notificationObserver = new NotificationObserver(BookingSubject);
 
 const createBooking = async (req, res) => {
   try {
@@ -180,6 +182,16 @@ const postRenterReview = async (req, res) => {
     booking.renterReview = { rating, feedback };
     await booking.save();
 
+    // Fetch the details of the booked car
+    const car = await Car.findById(booking.carId);
+    if (!car) {
+      return res.status(404).json({ message: 'Car not found' });
+    }
+
+    // Notify the owner about the renter's review
+    const ownerMessage = `The renter has submitted a review for the booking ${bookingId}`;
+    notificationObserver.update(car.owner, ownerMessage);
+    
     res.status(200).json({ message: 'Review submitted successfully' });
   } catch (error) {
     console.error('Error submitting review:', error);
@@ -201,6 +213,10 @@ const postOnwerReview = async (req, res) => {
     // Update the booking with the review data
     order.ownerReview = { rating, feedback };
     await order.save();
+
+    // Notify the renter about the owner's review
+    const renterMessage = `The owner has submitted a review for the booking ${orderId}`;
+    notificationObserver.update(order.renterId, renterMessage);
 
     res.status(200).json({ message: 'Review submitted successfully' });
   } catch (error) {

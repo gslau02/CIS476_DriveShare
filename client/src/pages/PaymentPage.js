@@ -34,7 +34,7 @@
 
 
 import React from 'react';
-import PaymentProxy from '../components/PaymentProxy';
+import PaymentProxy from '../Proxy/PaymentProxy';
 
 const PaymentPage = ({ bookingData, car, bookingId }) => {
   const { startDate, endDate } = bookingData;
@@ -62,7 +62,8 @@ const PaymentPage = ({ bookingData, car, bookingId }) => {
     // }
     try {
         // Use the PaymentProxy to handle the payment transaction
-        await PaymentProxy.handlePayment(bookingId);
+        const paymentProxy = new PaymentProxy();
+        await paymentProxy.handlePayment(bookingId);
         alert('Payment successful! Booking status changed to ACTIVE.');
       } catch (error) {
         console.error('Error processing payment:', error.message);
