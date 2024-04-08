@@ -132,15 +132,18 @@ const fetchOrdersByOwner = async (req, res) => {
   try {
     const { userId } = req.params;
     const owner = await User.findById(userId);
-    const car = await Car.findOne({ owner: owner._id }).select('make model year pickUpLocation owner');
-    const allOrders = await Booking.find({ carId: car._id });
+    const cars = await Car.find({ owner: owner._id }).select('make model year pickUpLocation owner');
+    const carIds = cars.map(car => car._id); // Extract unique carIds
 
+    const allOrders = await Booking.find({ carId: { $in: carIds } });
+    
     const now = new Date();
     const activeOrders = await Promise.all(
       allOrders
         .filter(order => order.endDate > now)
         .map(async order => {
-          const renter = await User.findById(order.renterId).select('email _id');
+          const renter = await User.findById(order.renterId).select('name _id');
+          const car = cars.find(car => car._id.equals(order.carId));
           return { ...order.toObject(), car, renter };
         })
     );
@@ -149,7 +152,8 @@ const fetchOrdersByOwner = async (req, res) => {
       allOrders
         .filter(order => order.endDate <= now)
         .map(async order => {
-          const renter = await User.findById(order.renterId).select('email');
+          const renter = await User.findById(order.renterId).select('name');
+          const car = cars.find(car => car._id.equals(order.carId));
           return { ...order.toObject(), car, renter };
         })
     );
