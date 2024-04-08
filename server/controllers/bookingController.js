@@ -183,8 +183,12 @@ const postRenterReview = async (req, res) => {
       return res.status(404).json({ message: 'Car not found' });
     }
 
+    const carName = car ? `${car.make} ${car.model}` : 'Unknown Car'; // Get the car name
+
     // Notify the owner about the renter's review
-    const ownerMessage = `The renter has submitted a review for the booking ${bookingId}`;
+    // const ownerMessage = `The renter has submitted a review for the booking ${bookingId}`;
+    const ownerMessage = `The renter has submitted a review for the ${carName} booking`;
+
     BookingSubject.notifyObservers(car.owner, ownerMessage);
     // notificationObserver.update(car.owner, ownerMessage);
     
@@ -210,8 +214,18 @@ const postOnwerReview = async (req, res) => {
     order.ownerReview = { rating, feedback };
     await order.save();
 
+    // Fetch the details of the booked car
+    const car = await Car.findById(order.carId);
+    if (!car) {
+      return res.status(404).json({ message: 'Car not found' });
+    }
+
+    const carName = car ? `${car.make} ${car.model}` : 'Unknown Car'; // Get the car name
+
     // Notify the renter about the owner's review
-    const renterMessage = `The owner has submitted a review for the booking ${orderId}`;
+    // const renterMessage = `The owner has submitted a review for the booking ${orderId}`;
+    const renterMessage = `The owner has submitted a review for the ${carName} booking`;
+
     BookingSubject.notifyObservers(order.renterId, renterMessage);
     // notificationObserver.update(order.renterId, renterMessage);
 
