@@ -6,7 +6,7 @@ const OrderCard = ({ order }) => {
   const navigate = useNavigate();
 
   const handleContactCustomer = () => {
-    navigate(`/chat/${order.renter._id}`);
+    navigate(`/chat/${order.renter._id}`, { state: { recipient: order.renter } } );
   };
 
   return (

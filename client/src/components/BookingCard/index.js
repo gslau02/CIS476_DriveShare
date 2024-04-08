@@ -6,7 +6,7 @@ const BookingCard = ({ booking }) => {
   const navigate = useNavigate();
 
   const handleContactOwner = () => {
-    navigate(`/chat/${booking.owner._id}`);
+    navigate(`/chat/${booking.owner._id}`, { state: { recipient: booking.owner } });
   };
 
   return (

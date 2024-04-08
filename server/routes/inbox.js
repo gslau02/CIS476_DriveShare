@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { fetchMessages, createMessage, fetchNotifications } = require('../controllers/inboxController');
+const { fetchAllMessages, createMessage, fetchNotifications, fetchMessagesByUser, fetchChatRoomMessages } = require('../controllers/inboxController');
 
-router.get('/messages', fetchMessages);
-router.post('/messages/:userId', createMessage);
+router.post('/messages', createMessage);
+router.get('/messages', fetchAllMessages);
+router.get('/messages/:userId', fetchMessagesByUser)
+router.get('/messages/:userId/:recipientId', fetchChatRoomMessages);
 
 router.get('/notifications', fetchNotifications);
 

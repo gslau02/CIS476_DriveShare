@@ -1,21 +1,23 @@
 // client/pages/InboxPage.js
 import React, { useState, useEffect } from 'react';
-import MessageList from '../components/MessageList';
+import { useNavigate } from 'react-router-dom';
+import InboxCard from '../components/InboxCard';
 import NotificationList from '../components/NotificationList';
-import SendMessageForm from '../components/SendMessageForm';
-import { fetchMessages, createMessage, fetchNotifications } from '../utils/inbox';
+import { fetchMessagesByUser, fetchNotifications } from '../utils/inbox';
 
 const InboxPage = () => {
   const userId = localStorage.getItem('userId');
   const [selectedTab, setSelectedTab] = useState('messages');
   const [messages, setMessages] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+
+  const uniqueUsers = new Set();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const messagesData = await fetchMessages(); // Fetch messages
+        const messagesData = await fetchMessagesByUser(userId); // Fetch user's messages
         setMessages(messagesData); // Set messages state
 
         const notificationsData = await fetchNotifications(); // Fetch notifications
@@ -28,30 +30,23 @@ const InboxPage = () => {
     fetchData();
   }, []);
 
-  const handleSelectUser = (user) => {
-    setSelectedUser(user);
+  const handleSelectMessage = (message) => {
+    const targetId = (userId === message.sender) ? message.recipient : message.sender;
+    navigate(
+      `/chat/${targetId}`,
+       { state: { recipient: { _id: targetId, name: message.targetName } } }
+    );
   };
 
-  const handleSendMessage = async (messageContent) => {
-    try {
-      if (selectedUser) {
-        // Create message data
-        const messageData = {
-          senderId: userId,
-          recipientId: selectedUser.id,
-          content: messageContent
-        };
-        // Call createMessage function to send message
-        await createMessage(userId, messageData);
-        // Optionally, update the state or fetch messages again after sending a message
-        // For example:
-        // const updatedMessagesData = await fetchMessages();
-        // setMessages(updatedMessagesData);
-      }
-    } catch (error) {
-      console.error('Failed to send message:', error);
+  // Filter messages to keep only the first occurrence of each title
+  const uniqueMessages = messages.filter((message) => {
+    if (uniqueUsers.has(message.targetName)) {
+      return false; // Skip this message if its title has already been added
+    } else {
+      uniqueUsers.add(message.targetName); // Add the title to the Set
+      return true; // Include this message in the uniqueMessages array
     }
-  };
+  });
 
   return (
     <div>
@@ -62,14 +57,14 @@ const InboxPage = () => {
       </div>
       {selectedTab === 'messages' && (
         <div className="inbox-container">
-          <div className="message-list-container">
-            <MessageList messages={messages} onSelectUser={handleSelectUser} />
-          </div>
-          <div className="send-message-form-container">
-            {selectedUser && (
-              <SendMessageForm userId={userId} recipientId={selectedUser.id} onSendMessage={handleSendMessage} />
-            )}
-          </div>
+          {uniqueMessages.map((message) => (
+            <InboxCard
+              title={message.targetName}
+              description={message.content}
+              date={message.createdAt}
+              onClick={() => handleSelectMessage(message)}
+            />
+          ))}
         </div>
       )}
       {selectedTab === 'notifications' && (
