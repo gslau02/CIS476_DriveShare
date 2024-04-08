@@ -57,14 +57,14 @@ const ForgotPasswordPage = () => {
 
   return (
     <div>
-      <h2>Forgot Password</h2>
       {questions.length === 0 ? (
-        <form onSubmit={handleSubmitEmail}>
+        <form onSubmit={handleSubmitEmail} className='form-container'>
+          <h2>Forgot Password</h2>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
           <button type="submit">Recover Password</button>
         </form>
       ) : (
-        <form onSubmit={handleSubmitAnswers}>
+        <form onSubmit={handleSubmitAnswers}  className='form-container'>
             {questions.map((question, index) => (
             <div key={question._id}>
                 <p>{question}</p>
@@ -76,12 +76,12 @@ const ForgotPasswordPage = () => {
             </div>
             ))}
             <button type="submit">Submit Answers</button>
+            {verificationMessage && <p>{verificationMessage}</p>}
         </form>
       )}
-      {verificationMessage && <p>{verificationMessage}</p>}
       {verificationResult && (
         <div>
-            <form onSubmit={handleSubmitNewPassword}>
+            <form onSubmit={handleSubmitNewPassword} className='form-container'>
             <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="New Password" />
             <button type="submit">Update Password</button>
             </form>
