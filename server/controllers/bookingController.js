@@ -6,7 +6,9 @@ const Notification = require('../models/Notification');
 const { Car } = require('../models/Car');
 const NotificationObserver = require('../observer/NotificationObserver');
 // Create an instance of NotificationObserver
-const notificationObserver = new NotificationObserver();
+const Subject = require('../observer/Subject');
+const BookingSubject = new Subject();
+const notificationObserver = new NotificationObserver(BookingSubject);
 
 const createBooking = async (req, res) => {
   try {
@@ -175,7 +177,7 @@ const postRenterReview = async (req, res) => {
     // Update the booking with the review data
     booking.renterReview = { rating, feedback };
     await booking.save();
-
+    
     res.status(200).json({ message: 'Review submitted successfully' });
   } catch (error) {
     console.error('Error submitting review:', error);
