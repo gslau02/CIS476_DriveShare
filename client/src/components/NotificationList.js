@@ -1,6 +1,7 @@
 // NotificationList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import NotificationCard from './NotificationCard';
 
 const NotificationList = ({ userId }) => {
   const [notifications, setNotifications] = useState([]);
@@ -23,10 +24,7 @@ const NotificationList = ({ userId }) => {
         <p>No notifications found.</p>
       ) : (
         notifications.map(notification => (
-          <div key={notification._id}>
-            {/* Render notification details */}
-            <p>{notification.message}</p>
-          </div>
+          <NotificationCard key={notification._id} title={notification.message} date={notification.timestamp} />
         ))
       )}
     </div>

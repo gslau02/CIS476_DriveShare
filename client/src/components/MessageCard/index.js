@@ -2,7 +2,7 @@ import React from 'react';
 import defaultImage from '../../assets/images/default_profile_picture.webp';
 import './style.css';
 
-const InboxCard = ({ imageSrc, title, description, date, onClick }) => {
+const MessageCard = ({ imageSrc, title, description, date, onClick }) => {
   const imageUrl = imageSrc || defaultImage;
 
   return (
@@ -19,4 +19,4 @@ const InboxCard = ({ imageSrc, title, description, date, onClick }) => {
   );
 };
 
-export default InboxCard;
+export default MessageCard;

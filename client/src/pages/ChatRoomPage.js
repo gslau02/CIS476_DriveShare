@@ -45,19 +45,23 @@ const ChatRoomPage = () => {
   };  
 
   return (
-    <div>
-      <h2>Chat with {recipient.name}</h2>
+    <div style={{ textAlign:'-webkit-center' }}>
+      <h2>{recipient.name}</h2>
+      <div style={{width: '50%'}}>
       <MessageDisplay messages={loadedMessages} />
-      <div>
+      <div style={{ display: 'flex'}}>
         <input
           type="text"
           required
           placeholder="Type your message..."
           value={inputMessage}
           onChange={handleInputMessageChange}
+          style={{ margin: '0px' }}
         />
-        <button onClick={handleSendMessage}>Send</button>
+        <button onClick={handleSendMessage} style={{ width: '100px' }}>Send</button>
       </div>
+      </div>
+      
     </div>
   );
 };

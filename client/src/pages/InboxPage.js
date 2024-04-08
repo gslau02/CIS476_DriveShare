@@ -1,7 +1,7 @@
 // client/pages/InboxPage.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import InboxCard from '../components/InboxCard';
+import MessageCard from '../components/MessageCard';
 import NotificationList from '../components/NotificationList';
 import { fetchMessagesByUser, fetchNotifications } from '../utils/inbox';
 
@@ -49,7 +49,7 @@ const InboxPage = () => {
   });
 
   return (
-    <div>
+    <div style={{textAlign: '-webkit-center'}}>
       <h2>Inbox</h2>
       <div className="tabs">
         <button onClick={() => setSelectedTab('messages')}>Messages</button>
@@ -58,10 +58,10 @@ const InboxPage = () => {
       {selectedTab === 'messages' && (
         <div className="inbox-container">
           {uniqueMessages.map((message) => (
-            <InboxCard
+            <MessageCard
               title={message.targetName}
               description={message.content}
-              date={message.createdAt}
+              date={message.createdAt.substring(0, 19)}
               onClick={() => handleSelectMessage(message)}
             />
           ))}
