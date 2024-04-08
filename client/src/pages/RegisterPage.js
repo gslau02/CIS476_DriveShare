@@ -73,8 +73,8 @@
 
 // RegisterPage.js
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import RegistrationForm from '../components/RegistrationForm';
+import { useNavigate } from 'react-router-dom';
+import RegistrationForm from '../components/RegistrationForm/RegistrationForm';
 import Mediator from '../mediator/mediator';
 
 const RegisterPage = () => {
@@ -89,11 +89,7 @@ const RegisterPage = () => {
   Mediator.subscribe('registrationSuccess', handleRegistrationSuccess);
 
   return (
-    <div>
-      <h2>Register</h2>
-      <RegistrationForm />
-      <Link to="/auth">Already have an account? Login</Link>
-    </div>
+    <RegistrationForm />
   );
 };
 

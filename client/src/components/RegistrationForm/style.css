@@ -1,0 +1,68 @@
+.form-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+input {
+  padding: 8px;
+  width: -webkit-fill-available;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.security-questions {
+  margin-bottom: 20px;
+}
+
+p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+h2 {
+  font-size: 18px;
+  text-align: center;
+}
+
+button {
+  padding: 10px;
+  background-color: #593CFB;
+  width: -webkit-fill-available;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4829fa;
+}
+
+.link {
+  color: #593CFB;
+  text-decoration: none;
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: #4829fa;
+}
+

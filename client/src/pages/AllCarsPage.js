@@ -38,35 +38,35 @@ const AllCarsPage = () => {
 
   return (
     <div>
-      <h2>All Available Cars</h2>
-      <form onSubmit={handleSearch}>
-        <label>
-          Location:
+      <h2>Find the Perfect Car from your Peers</h2>
+      <form className="search-form" onSubmit={handleSearch}>
+        <div className='form-group'>
+          <p>Location:</p>
           <input
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
-        </label>
-        <label>
-          From Date:
+        </div>
+        <div className='form-group'>
+          <p>From Date:</p>
           <input
             type="date"
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
           />
-        </label>
-        <label>
-          To Date:
+        </div>
+        <div className='form-group'>
+          <p>To Date:</p>
           <input
             type="date"
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
           />
-        </label>
-        <button type="submit">Search</button>
+        </div>
+        <button className='search-button' type="submit">Search</button>
       </form>
-      <ul>
+      <ul style={{ textAlign: "-webkit-center"}}>
         {cars.map((car) => (
           <CarCard key={car._id} car={car} />
         ))}

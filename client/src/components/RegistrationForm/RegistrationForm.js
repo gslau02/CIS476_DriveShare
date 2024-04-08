@@ -1,7 +1,9 @@
 // RegistrationForm.js
 import React, { useState } from 'react';
-import Mediator from '../mediator/mediator';
-import { registerUser } from '../utils/auth';
+import { Link } from 'react-router-dom';
+import Mediator from '../../mediator/mediator';
+import { registerUser } from '../../utils/auth';
+import './style.css';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -36,27 +38,27 @@ const RegistrationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
+    <div className="form-container">
+      <h2>Register New Account</h2>
+      <form className="registration-form" onSubmit={handleSubmit}>
+        <p>Name:</p>
         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
-      </label>
-      <label>
-        Email:
+        <p>Email:</p>
         <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
-      </label>
-      <label>
-        Password:
+        <p>Password:</p>
         <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
-      </label>
-      <p>{formData.securityQuestion1.question}</p>
-      <input type="text" name="securityQuestion1" value={formData.securityQuestion1.answer} onChange={handleChange} placeholder="Answer" required />
-      <p>{formData.securityQuestion2.question}</p>
-      <input type="text" name="securityQuestion2" value={formData.securityQuestion2.answer} onChange={handleChange} placeholder="Answer" required />
-      <p>{formData.securityQuestion3.question}</p>
-      <input type="text" name="securityQuestion3" value={formData.securityQuestion3.answer} onChange={handleChange} placeholder="Answer" required />
-      <button type="submit">Register</button>
-    </form>
+        <div className="security-questions">
+          <p>{formData.securityQuestion1.question}</p>
+          <input type="text" name="securityQuestion1" value={formData.securityQuestion1.answer} onChange={handleChange} placeholder="Answer" required />
+          <p>{formData.securityQuestion2.question}</p>
+          <input type="text" name="securityQuestion2" value={formData.securityQuestion2.answer} onChange={handleChange} placeholder="Answer" required />
+          <p>{formData.securityQuestion3.question}</p>
+        <input type="text" name="securityQuestion3" value={formData.securityQuestion3.answer} onChange={handleChange} placeholder="Answer" required />
+        </div>
+        <button type="submit">Register</button>
+        <Link className='link' to="/auth">Already have an account? Login</Link>
+      </form>
+    </div>
   );
 };
 

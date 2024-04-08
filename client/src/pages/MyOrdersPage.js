@@ -65,7 +65,7 @@ const MyOrdersPage = () => {
   };
 
   return (
-    <div>
+    <div style={{ textAlign: '-webkit-center'}}>
       <h2>My Orders</h2>
       <div className="tabs">
         <button onClick={() => setCurrentTab('active')}>Active</button>

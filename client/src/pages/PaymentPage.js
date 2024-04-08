@@ -72,13 +72,15 @@ const PaymentPage = ({ bookingData, car, bookingId }) => {
   };
 
   return (
-    <div>
+    <div className="invoice-container">
       <h2>Payment Details</h2>
-      <p><strong>Car:</strong> {car.make} {car.model}</p>
-      <p><strong>Rental Duration:</strong> {rentalDuration}</p>
-      <p><strong>Price per Day:</strong> ${rentalPricing}</p>
-      <p><strong>Total Price:</strong> ${totalPrice}</p>
-      <button onClick={handlePayment}>Pay Now</button>
+      <div className="invoice-details">
+        <p><strong>Car:</strong> <span>{car.make} {car.model}</span></p>
+        <p><strong>Rental Duration:</strong> <span>{rentalDuration}</span></p>
+        <p><strong>Price per Day:</strong> <span>${rentalPricing}</span></p>
+        <p><strong>Total Price:</strong> <span>${totalPrice}</span></p>
+      </div>
+      <button onClick={handlePayment} className="pay-button">Pay Now</button>
     </div>
   );
 };

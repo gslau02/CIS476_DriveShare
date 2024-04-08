@@ -46,14 +46,14 @@ const AuthPage = () => {
 
   return (
     <div>
-      <h2>Authentication</h2>
-      <form onSubmit={handleSubmit}>
+      <form className="form-container" onSubmit={handleSubmit}>
+        <h2>Login to Account</h2>
         <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
         <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
         <button type="submit">Login</button>
+        <Link className='link' to="/register">Not a user? Register</Link>
+        <Link className='link' to="/forgotPassword">Forgot Password?</Link>
       </form>
-      <Link to="/register">Not a user? Register</Link>
-      <Link to="/forgotPassword">Forgot Password?</Link>
     </div>
   );
 };
