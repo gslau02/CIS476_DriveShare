@@ -43,6 +43,7 @@ const MyBookingsPage = () => {
       return;
     }
     try {
+      await postRenterReview(bookingId, rating, feedback);
       const updatedHistoryBookings = historyBookings.map((booking) => {
         if (booking._id === bookingId) {
           return {
