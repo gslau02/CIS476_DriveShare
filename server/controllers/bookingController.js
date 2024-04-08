@@ -28,16 +28,11 @@ const createBooking = async (req, res) => {
     const renterMessage = `Your booking for ${carName} was successful`;
     const ownerMessage = `Your car (${carName}) has been booked`;
 
-    // Notify observers with modified message
-    notificationObserver.update(renterId, renterMessage);
-    notificationObserver.update(ownerId, ownerMessage);
-    
-    // // Notify observers
-    // notificationObserver.update(renterId, 'Your booking was successful');
-    // notificationObserver.update(ownerId, 'Your car has been booked');
-
-    // await Notification.create({ recipient: renterId, message: 'Your booking was successful' });
-    // await Notification.create({ recipient: ownerId, message: 'Your car has been booked' });
+    BookingSubject.notifyObservers(renterId, renterMessage);
+    BookingSubject.notifyObservers(ownerId, ownerMessage);
+    // // Notify observers with modified message
+    // notificationObserver.update(renterId, renterMessage);
+    // notificationObserver.update(ownerId, ownerMessage);
 
     // Send the booking ID in the response
     res.status(201).json({ bookingId, message: 'Booking created successfully' });
@@ -190,7 +185,8 @@ const postRenterReview = async (req, res) => {
 
     // Notify the owner about the renter's review
     const ownerMessage = `The renter has submitted a review for the booking ${bookingId}`;
-    notificationObserver.update(car.owner, ownerMessage);
+    BookingSubject.notifyObservers(car.owner, ownerMessage);
+    // notificationObserver.update(car.owner, ownerMessage);
     
     res.status(200).json({ message: 'Review submitted successfully' });
   } catch (error) {
@@ -216,7 +212,8 @@ const postOnwerReview = async (req, res) => {
 
     // Notify the renter about the owner's review
     const renterMessage = `The owner has submitted a review for the booking ${orderId}`;
-    notificationObserver.update(order.renterId, renterMessage);
+    BookingSubject.notifyObservers(order.renterId, renterMessage);
+    // notificationObserver.update(order.renterId, renterMessage);
 
     res.status(200).json({ message: 'Review submitted successfully' });
   } catch (error) {
