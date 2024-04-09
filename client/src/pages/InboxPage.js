@@ -26,7 +26,7 @@ const InboxPage = () => {
         setMessages(messagesData); // Set messages state
 
         // Fetch notifications
-        const notificationsData = await fetchNotifications(); 
+        const notificationsData = await getNotificationsByUser(userId); 
         // Set notifications state
         setNotifications(notificationsData);
       } catch (error) {
