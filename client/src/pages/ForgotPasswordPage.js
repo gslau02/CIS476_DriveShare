@@ -1,7 +1,7 @@
 // ForgotPassword.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getSecurityQuestions, verifySecurityQuestions, updatePassword } from '../utils/auth';
+import { getSecurityQuestions, verifySecurityQuestions, updatePassword } from '../middlewares/auth';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');

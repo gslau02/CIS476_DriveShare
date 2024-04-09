@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { createMessage, fetchChatRoomMessages } from '../utils/inbox';
+import { createMessage, fetchChatRoomMessages } from '../middlewares/inbox';
 import MessageDisplay from '../components/MessageDisplay';
 
 const ChatRoomPage = () => {
@@ -15,7 +15,6 @@ const ChatRoomPage = () => {
     const fetchMessages = async () => {
       try {
         const messages = await fetchChatRoomMessages(userId, recipient._id);
-        console.log(messages);
         setLoadedMessages(messages);
       } catch (error) {
         console.error('Failed to fetch messages:', error);

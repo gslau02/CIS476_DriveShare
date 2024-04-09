@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import OrderCard from '../components/OrderCard';
-import { fetchOrdersByOwner, postOwnerReview } from '../utils/booking';
+import { fetchOrdersByOwner, postOwnerReview } from '../middlewares/booking';
 
 const MyOrdersPage = () => {
   const userId = localStorage.getItem('userId');

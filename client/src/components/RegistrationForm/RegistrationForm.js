@@ -1,8 +1,8 @@
 // RegistrationForm.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Mediator from '../../mediator/mediator';
-import { registerUser } from '../../utils/auth';
+import Mediator from '../../utils/mediator/mediator';
+import { registerUser } from '../../middlewares/auth';
 import './style.css';
 
 const RegistrationForm = () => {

@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MessageCard from '../components/MessageCard';
-import NotificationList from '../components/NotificationList';
-import { fetchMessagesByUser, fetchNotifications } from '../utils/inbox';
+import NotificationList from '../components/NotificationList/NotificationList';
+import { fetchMessagesByUser, getNotificationsByUser } from '../middlewares/inbox';
 
 const InboxPage = () => {
   const userId = localStorage.getItem('userId');
@@ -20,15 +20,15 @@ const InboxPage = () => {
         const messagesData = await fetchMessagesByUser(userId); // Fetch user's messages
         setMessages(messagesData); // Set messages state
 
-        const notificationsData = await fetchNotifications(); // Fetch notifications
-        setNotifications(notificationsData); // Set notifications state
+        const notificationsData = await getNotificationsByUser(userId); // Fetch notifications
+        setNotifications(notificationsData.notifications); // Set notifications state
       } catch (error) {
         console.error('Failed to load data:', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   const handleSelectMessage = (message) => {
     const targetId = (userId === message.sender) ? message.recipient : message.sender;
@@ -69,8 +69,7 @@ const InboxPage = () => {
       )}
       {selectedTab === 'notifications' && (
         <NotificationList 
-          // notifications={notifications} 
-          userId = {localStorage.getItem("userId")}
+          notifications={notifications}
         />
       )}
     </div>

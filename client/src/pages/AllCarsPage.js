@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchAllCars } from '../utils/car';
+import { fetchAllCars } from '../middlewares/car';
 import CarCard from '../components/CarCard';
 
 const AllCarsPage = () => {

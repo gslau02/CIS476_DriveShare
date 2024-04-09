@@ -1,9 +1,8 @@
 const cron = require('node-cron');
-
 const Booking = require('../models/Booking');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
-const { Car } = require('../models/Car');
+const Car = require('../models/Car');
 const NotificationObserver = require('../utils/observer/NotificationObserver');
 // Create an instance of NotificationObserver
 const Subject = require('../utils/observer/Subject');
@@ -30,9 +29,6 @@ const createBooking = async (req, res) => {
 
     BookingSubject.notifyObservers(renterId, renterMessage);
     BookingSubject.notifyObservers(ownerId, ownerMessage);
-    // // Notify observers with modified message
-    // notificationObserver.update(renterId, renterMessage);
-    // notificationObserver.update(ownerId, ownerMessage);
 
     // Send the booking ID in the response
     res.status(201).json({ bookingId, message: 'Booking created successfully' });

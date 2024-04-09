@@ -1,8 +1,7 @@
-// SingleCarPage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { fetchSingleCar } from '../utils/car';
+import { fetchSingleCar } from '../middlewares/car';
 import PaymentPage from './PaymentPage';
 import defaultCarImage from '../assets/images/default_car.jpg';
 import locationIcon from '../assets/images/location.png';

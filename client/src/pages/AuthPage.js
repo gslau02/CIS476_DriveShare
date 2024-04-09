@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { authenticateUser, verifySession } from '../utils/auth';
+import { authenticateUser, verifySession } from '../middlewares/auth';
 
 const AuthPage = () => {
   // Define state for form data
