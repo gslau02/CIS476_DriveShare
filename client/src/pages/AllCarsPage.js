@@ -3,19 +3,23 @@ import { fetchAllCars } from '../utils/car';
 import CarCard from '../components/CarCard';
 
 const AllCarsPage = () => {
+  // Define state variables for cars, location, fromDate, and toDate
   const [cars, setCars] = useState([]);
   const [location, setLocation] = useState('');
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
 
+  // Define a function to handle search when the form is submitted
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
+      // Prepare search parameters based on user input
       const searchParams = {};
       if (location) searchParams.location = location;
       if (fromDate) searchParams.fromDate = fromDate;
       if (toDate) searchParams.toDate = toDate;
 
+      // Fetch cars based on search parameters
       const cars = await fetchAllCars(searchParams);
       setCars(cars);
     } catch (error) {
@@ -23,6 +27,7 @@ const AllCarsPage = () => {
     }
   };
 
+  // Fetch all cars when the component mounts
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -36,6 +41,7 @@ const AllCarsPage = () => {
     fetchCars();
   }, []);
 
+  // Render the component
   return (
     <div>
       <h2>Find the Perfect Car from your Peers</h2>
