@@ -4,13 +4,16 @@ import './style.css';
 import defaultCarImage from '../../assets/images/default_car.jpg';
 import locationIcon from '../../assets/images/location.png';
 
+// CarCard component that takes car object
 const CarCard = ({ car }) => {
   const navigate = useNavigate();
 
+  // Handle click on the car card
   const handleCardClick = () => {
     navigate(`/car/${car._id}`); // Navigate to the single car page with the car ID
   };
 
+  // JSX structure to render CarCard 
   return (
     <div className="car-card" onClick={handleCardClick}>
       <div className="car-image-container">
