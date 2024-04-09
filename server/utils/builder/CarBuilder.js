@@ -1,5 +1,6 @@
 const Car = require('../../models/Car');
 
+// Base class for building cars
 class CarBuilderBase {
   constructor() {
     if (this.constructor === CarBuilderBase) {
@@ -7,6 +8,7 @@ class CarBuilderBase {
     }
   }
 
+  // Abstract methods to be implemented by subclasses
   setMake(make) {
     throw new Error('Method setMake must be implemented');
   }
@@ -44,6 +46,7 @@ class CarBuilderBase {
   }
 }
 
+// Concrete implementation of CarBuilderBase
 class CarBuilder extends CarBuilderBase {
   constructor() {
     super();
