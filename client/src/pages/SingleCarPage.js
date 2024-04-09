@@ -7,6 +7,7 @@ import defaultCarImage from '../assets/images/default_car.jpg';
 import locationIcon from '../assets/images/location.png';
 
 const SingleCarPage = () => {
+  // Get the carId from URL params
   const { carId } = useParams();
   const [car, setCar] = useState(null);
   const [bookingId, setBookingId] = useState(null);
@@ -20,6 +21,7 @@ const SingleCarPage = () => {
   useEffect(() => {
     const fetchCar = async () => {
       try {
+        // Fetch the car details by carId
         const fetchedCar = await fetchSingleCar(carId);
         setCar(fetchedCar);
         setCarOwnerId(fetchedCar.owner);
@@ -30,6 +32,7 @@ const SingleCarPage = () => {
     fetchCar();
   }, [carId]);
 
+  // Function to handle changes in the date inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     const startDate = new Date(car.availability.startDate).toISOString().split('T')[0];
@@ -50,6 +53,7 @@ const SingleCarPage = () => {
     }
   };
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -103,10 +107,12 @@ const SingleCarPage = () => {
     }
   };
 
+  // If car data is not yet loaded, display loading message
   if (!car) {
     return <div>Loading...</div>;
   }
 
+  // Render car details and booking form
   return (
     <div style={{ textAlign: '-webkit-center' }}>
       {car && (
@@ -162,5 +168,3 @@ const SingleCarPage = () => {
 };
 
 export default SingleCarPage;
-
-
