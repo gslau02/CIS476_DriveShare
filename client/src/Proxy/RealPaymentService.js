@@ -1,8 +1,8 @@
 // RealPaymentService.js
 import axios from 'axios';
-// const PaymentService = require('./PaymentService');
 import PaymentService from './PaymentService';
 
+// Concrete class of RealPaymentService, extending from PaymentService
 class RealPaymentService extends PaymentService{
   async handlePayment(bookingId) {
     try {
