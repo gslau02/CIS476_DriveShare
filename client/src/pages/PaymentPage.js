@@ -1,5 +1,5 @@
 import React from 'react';
-import PaymentProxy from '../proxy/PaymentProxy';
+import PaymentProxy from '../Proxy/PaymentProxy';
 
 const PaymentPage = ({ bookingData, car, bookingId }) => {
   const { startDate, endDate } = bookingData;
