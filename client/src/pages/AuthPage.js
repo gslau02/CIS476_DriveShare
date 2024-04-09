@@ -3,21 +3,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authenticateUser, verifySession } from '../utils/auth';
 
 const AuthPage = () => {
+  // Define state for form data
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
+  // Get navigate function from useNavigate hook
   const navigate = useNavigate();
 
+  // Handle form input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Authenticate user with form data
       await authenticateUser(formData);
+      // Redirect to home page after successful login
       navigate('/home');
       alert('Login successful');
     } catch (error) {
@@ -26,13 +32,16 @@ const AuthPage = () => {
     }
   };
 
+  // Check session on component mount
   useEffect(() => {
     const sessionToken = localStorage.getItem('sessionToken');
     if (sessionToken) {
+      // Verify session with session token
       verifySession(sessionToken)
         .then((response) => {
           if (response.userId) {
             alert('Welcome back!');
+            // Redirect to home page if session is valid
             navigate('/home');
           } else {
             localStorage.removeItem('sessionToken');
@@ -44,6 +53,7 @@ const AuthPage = () => {
     }
   }, [navigate]);
 
+  // Render the component
   return (
     <div>
       <form className="form-container" onSubmit={handleSubmit}>
