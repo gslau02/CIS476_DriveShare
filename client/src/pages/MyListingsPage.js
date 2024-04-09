@@ -7,9 +7,11 @@ import locationIcon from '../assets/images/location.png';
 import ButtonLink from '../components/ButtonLink/ButtonLink';
 
 const MyListingsPage = () => {
+  // Initialize state variables
   const navigate = useNavigate();
   const [carListings, setCarListings] = useState([]);
 
+  // Fetch user's car listings on component mount
   useEffect(() => {
     const fetchUserCarListings = async () => {
       try {
@@ -17,6 +19,7 @@ const MyListingsPage = () => {
         if (userId) {
           const response = await axios.get(`http://localhost:3001/car/listUserCarListings/${userId}`);
           setCarListings(response.data);
+          // Update isCarOwner status based on car listings
           (response.data.length === 0) ? localStorage.setItem('isCarOwner', false) : localStorage.setItem('isCarOwner', true);          
         } else {
           console.error('User ID not found in localStorage');
@@ -29,6 +32,7 @@ const MyListingsPage = () => {
     fetchUserCarListings();
   }, []);
 
+  // Delete car listing
   const handleDelete = async (carId) => {
     try {
       await axios.delete(`http://localhost:3001/car/${carId}`);
@@ -36,10 +40,10 @@ const MyListingsPage = () => {
       setCarListings(carListings.filter(car => car._id !== carId));
     } catch (error) {
       console.error('Error deleting car listing:', error);
-      // Handle error: Display error message or show error notification
     }
   };
 
+  // Render the component
   return (
     <div style={{textAlign: 'center'}}>
       <h2>My Car Listings</h2>

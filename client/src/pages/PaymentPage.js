@@ -2,6 +2,7 @@ import React from 'react';
 import PaymentProxy from '../Proxy/PaymentProxy';
 
 const PaymentPage = ({ bookingData, car, bookingId }) => {
+  // Destructure bookingData and car
   const { startDate, endDate } = bookingData;
   const { rentalPricing } = car;
   
@@ -16,6 +17,7 @@ const PaymentPage = ({ bookingData, car, bookingId }) => {
   // Calculate total price
   const totalPrice = durationInDays * rentalPricing;
 
+  // Function to handle payment
   const handlePayment = async () => {
     try {
         // Use the PaymentProxy to handle the payment transaction
@@ -28,6 +30,7 @@ const PaymentPage = ({ bookingData, car, bookingId }) => {
       }
   };
 
+  // Render the component
   return (
     <div className="invoice-container">
       <h2>Payment Details</h2>
