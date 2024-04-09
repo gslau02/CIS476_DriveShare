@@ -2,9 +2,11 @@ import React from 'react';
 import defaultImage from '../../assets/images/default_profile_picture.webp';
 import './style.css';
 
+// NotificationCard component that takes imageSrc, title, and date
 const NotificationCard = ({ imageSrc, title, date }) => {
   const imageUrl = imageSrc || defaultImage;
 
+  // JSX structure to render NotificationCard
   return (
     <div className="inbox-card">
       <div className="inbox-card-left">

@@ -3,13 +3,16 @@ import BookingCard from '../components/BookingCard';
 import { fetchBookingsByUser, postRenterReview } from '../middlewares/booking';
 
 const MyBookingsPage = () => {
+  // Get user ID from localStorage
   const userId = localStorage.getItem('userId');
+  // Initialize state variables
   const [currentTab, setCurrentTab] = useState('active');
   const [activeBookings, setActiveBookings] = useState([]);
   const [historyBookings, setHistoryBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reviewData, setReviewData] = useState({});
 
+  // Fetch user bookings on component mount
   useEffect(() => {
     const fetchBookings = async () => {
       try {
@@ -26,6 +29,7 @@ const MyBookingsPage = () => {
     fetchBookings();
   }, []);
 
+  // Update review data when input changes
   const handleReviewChange = (bookingId, key, value) => {
     setReviewData({
       ...reviewData,
@@ -36,6 +40,7 @@ const MyBookingsPage = () => {
     });
   };
 
+  // Submit renter review
   const handleReviewSubmit = async (bookingId) => {
     const { rating, feedback } = reviewData[bookingId] || {};
     if (!rating || !feedback || isNaN(rating) || rating < 0 || rating > 5) {
@@ -64,6 +69,7 @@ const MyBookingsPage = () => {
     }
   };
 
+  // Render the component
   return (
     <div style={{ textAlign: '-webkit-center'}}>
       <h2>My Bookings</h2>

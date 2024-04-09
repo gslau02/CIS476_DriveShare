@@ -3,6 +3,7 @@ import OrderCard from '../components/OrderCard';
 import { fetchOrdersByOwner, postOwnerReview } from '../middlewares/booking';
 
 const MyOrdersPage = () => {
+  // Initialize state variables
   const userId = localStorage.getItem('userId');
   const [currentTab, setCurrentTab] = useState('active');
   const [activeOrders, setactiveOrders] = useState([]);
@@ -10,6 +11,7 @@ const MyOrdersPage = () => {
   const [loading, setLoading] = useState(true);
   const [reviewData, setReviewData] = useState({});
 
+  // Fetch owner's orders on component mount
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -26,6 +28,7 @@ const MyOrdersPage = () => {
     fetchOrders();
   }, []);
 
+  // Function to handle changes in review data
   const handleReviewChange = (orderId, key, value) => {
     setReviewData({
       ...reviewData,
@@ -36,6 +39,7 @@ const MyOrdersPage = () => {
     });
   };
 
+  // Function to handle review submission
   const handleReviewSubmit = async (orderId) => {
     const { rating, feedback } = reviewData[orderId] || {};
     if (!rating || !feedback || isNaN(rating) || rating < 0 || rating > 5) {
@@ -64,6 +68,7 @@ const MyOrdersPage = () => {
     }
   };
 
+  // Render the component
   return (
     <div style={{ textAlign: '-webkit-center'}}>
       <h2>My Orders</h2>

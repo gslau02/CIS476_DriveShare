@@ -5,7 +5,9 @@ import Mediator from '../../utils/mediator/mediator';
 import { registerUser } from '../../middlewares/auth';
 import './style.css';
 
+// RegistrationForm component
 const RegistrationForm = () => {
+  // State for form data initialization
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -15,8 +17,10 @@ const RegistrationForm = () => {
     securityQuestion3: { question: 'What is the name of your favorite teacher?', answer: '' }
   });
 
+  // Handle changes in form inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Update state according to the input field name
     if (name.startsWith('securityQuestion')) {
       const questionNumber = name.charAt(name.length - 1); // Extract the question number from the field name
       const updatedQuestion = { ...formData[name], answer: value };
@@ -26,9 +30,11 @@ const RegistrationForm = () => {
     }
   };
   
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Call registerUser function
       await registerUser(formData);
       Mediator.publish('registrationSuccess'); // Publish registration success event
     } catch (error) {
@@ -37,6 +43,7 @@ const RegistrationForm = () => {
     }
   };
 
+  // JSX structure to render the registration form
   return (
     <div className="form-container">
       <h2>Register New Account</h2>

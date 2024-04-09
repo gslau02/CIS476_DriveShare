@@ -4,7 +4,10 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const EditCarPage = () => {
+  // Get carId from URL parameters
   const { carId } = useParams();
+
+  // Define state for car details
   const [car, setCar] = useState({
     make: '',
     model: '',
@@ -15,10 +18,12 @@ const EditCarPage = () => {
     availability: []
   });
 
+  // Fetch car details on component mount
   useEffect(() => {
     const fetchCarDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/car/${carId}`);
+        // Set car details state
         setCar(response.data);
       } catch (error) {
         console.error('Error fetching car details:', error);
@@ -28,25 +33,25 @@ const EditCarPage = () => {
     fetchCarDetails();
   }, [carId]);
 
+  // Handle input change
   const handleChange = (e) => {
     setCar({ ...car, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.put(`http://localhost:3001/car/${carId}`, car);
       console.log('Car updated successfully:', response.data);
-      // Optionally: Redirect to My Listings page or show a success message
     } catch (error) {
       console.error('Error updating car listing:', error);
-      // Handle error: Display error message or show error notification
     }
   };
 
+  // Render the component
   return (
     <div>
-      
       <form className='form-container' onSubmit={handleSubmit}>
         <h2>Edit Car Listing</h2>
         <p>Make:</p>

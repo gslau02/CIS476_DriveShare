@@ -5,13 +5,16 @@ import defaultCarImage from '../../assets/images/default_car.jpg';
 import locationIcon from '../../assets/images/location.png';
 import RatingStars from '../RatingStars/RatingStars';
 
+// OrderCard that takes order object
 const OrderCard = ({ order }) => {
   const navigate = useNavigate();
 
+  // Function to handle contacting the customer (Navigate to messaging page)
   const handleContactCustomer = () => {
     navigate(`/chat/${order.renter._id}`, { state: { recipient: order.renter } } );
   };
 
+  // JSX structure to render OrderCard
   return (
     <div className="car-card">
       <div className="car-image-container">

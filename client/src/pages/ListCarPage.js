@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { listCarForRent } from '../middlewares/car';
 
 const ListCarPage = () => {
+  // Initialize state for form data
   const [formData, setFormData] = useState({
     make: '',
     model: '',
@@ -15,21 +16,27 @@ const ListCarPage = () => {
     owner: localStorage.getItem("userId")
   });
 
+  // Handle form input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Send form data to list car for rent
       await listCarForRent(formData);
+      // Display success message
       alert('Car listed successfully!');
     } catch (error) {
       console.error(error.message);
+      // Display error message
       alert('Failed to list the car.');
     }
   };
 
+  // Render the component
   return (
     <div>
       <form onSubmit={handleSubmit} className='form-container'>
