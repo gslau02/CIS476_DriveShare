@@ -5,9 +5,12 @@ import AllCarsPage from './AllCarsPage';
 import '../styles/style.css';
 
 const HomePage = () => {
+  // Initialize navigate function from useNavigate hook
   const navigate = useNavigate();
+  // Check if the user is a car owner
   const isCarOwner = localStorage.getItem('isCarOwner');
 
+  // Handle logout function
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
@@ -20,6 +23,7 @@ const HomePage = () => {
     }
   };
 
+  // Render the component
   return (
     <div>
       <nav>
