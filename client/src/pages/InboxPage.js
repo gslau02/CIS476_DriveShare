@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MessageCard from '../components/MessageCard';
-import NotificationList from '../components/NotificationList';
-import { fetchMessagesByUser, fetchNotifications } from '../utils/inbox';
+import NotificationList from '../components/NotificationList/NotificationList';
+import { fetchMessagesByUser, getNotificationsByUser } from '../middlewares/inbox';
 
 const InboxPage = () => {
   // Retrieve userId from localStorage
@@ -26,7 +26,7 @@ const InboxPage = () => {
         setMessages(messagesData); // Set messages state
 
         // Fetch notifications
-        const notificationsData = await fetchNotifications(); 
+        const notificationsData = await getNotificationsByUser(userId); 
         // Set notifications state
         setNotifications(notificationsData);
       } catch (error) {
@@ -35,7 +35,7 @@ const InboxPage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   // Handle selection of a message
   const handleSelectMessage = (message) => {
@@ -80,8 +80,7 @@ const InboxPage = () => {
       )}
       {selectedTab === 'notifications' && (
         <NotificationList 
-          // notifications={notifications} 
-          userId = {localStorage.getItem("userId")}
+          notifications={notifications}
         />
       )}
     </div>

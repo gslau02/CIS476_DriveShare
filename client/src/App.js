@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './assets/images/logo.jpeg';
 import Routes from './routes/Routes';
-import './App.css'; // Import your CSS file
+import './styles/style.css';
 
 const App = () => {
   return (

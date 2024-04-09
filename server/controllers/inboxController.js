@@ -67,16 +67,6 @@ const fetchChatRoomMessages = async (req, res, next) => {
 
 }
 
-const fetchNotifications = async (req, res) => {
-  try {
-    const notifications = await Notification.find().sort({ createdAt: -1 });
-    res.json(notifications);
-  } catch (error) {
-    console.error('Error fetching notifications:', error);
-    res.status(500).json({ message: 'Error fetching notifications' });
-  }
-};
-
 const getNotificationsByUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -90,7 +80,6 @@ const getNotificationsByUser = async (req, res) => {
 
 module.exports = {
   fetchAllMessages,
-  fetchNotifications,
   createMessage,
   fetchMessagesByUser,
   fetchChatRoomMessages,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BookingCard from '../components/BookingCard';
-import { fetchBookingsByUser, postRenterReview } from '../utils/booking';
+import { fetchBookingsByUser, postRenterReview } from '../middlewares/booking';
 
 const MyBookingsPage = () => {
   // Get user ID from localStorage

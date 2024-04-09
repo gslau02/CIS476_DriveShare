@@ -1,3 +1,17 @@
+.header-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 75px;
+  margin-right: 10px;
+}
+
+.app-name {
+  font-size: 24px;
+}
+
 nav {
   display: flex;
   justify-content: space-around;

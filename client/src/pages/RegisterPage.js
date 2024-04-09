@@ -1,8 +1,7 @@
-// RegisterPage.js
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import RegistrationForm from '../components/RegistrationForm/RegistrationForm';
-import Mediator from '../mediator/mediator';
+import Mediator from '../utils/mediator/mediator';
 
 const RegisterPage = () => {
   const navigate = useNavigate();

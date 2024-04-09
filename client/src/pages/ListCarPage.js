@@ -1,6 +1,6 @@
 // ListCarPage.js
 import React, { useState } from 'react';
-import { listCarForRent } from '../utils/car';
+import { listCarForRent } from '../middlewares/car';
 
 const ListCarPage = () => {
   // Initialize state for form data

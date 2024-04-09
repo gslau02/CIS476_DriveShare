@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../utils/auth';
+import { logout } from '../middlewares/auth';
 import AllCarsPage from './AllCarsPage';
 import '../styles/style.css';
 

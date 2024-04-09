@@ -1,5 +1,5 @@
 import React from 'react';
-import PaymentProxy from '../Proxy/PaymentProxy';
+import PaymentProxy from '../utils/proxy/PaymentProxy';
 
 const PaymentPage = ({ bookingData, car, bookingId }) => {
   // Destructure bookingData and car

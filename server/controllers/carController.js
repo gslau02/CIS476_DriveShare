@@ -1,5 +1,5 @@
-// carController.js
-const { Car, CarBuilder } = require('../models/Car');
+const Car = require('../models/Car');
+const CarBuilder = require('../utils/builder/CarBuilder');
 const User = require('../models/User');
 
 const listCarForRent = async (req, res) => {
