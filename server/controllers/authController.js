@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
-const SessionManager = require('../utils/SessionManager');
+const SessionManager = require('../utils/singleton/SessionManager');
 const { 
   SecurityQuestion1Handler, 
   SecurityQuestion2Handler, 
   SecurityQuestion3Handler 
-}  = require('../utils/SecurityQuestionHandler');
+}  = require('../utils/handler/SecurityQuestionHandler');
 
 const sessionManager = SessionManager.getInstance();
 

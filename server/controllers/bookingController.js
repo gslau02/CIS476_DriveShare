@@ -4,9 +4,9 @@ const Booking = require('../models/Booking');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 const { Car } = require('../models/Car');
-const NotificationObserver = require('../observer/NotificationObserver');
+const NotificationObserver = require('../utils/observer/NotificationObserver');
 // Create an instance of NotificationObserver
-const Subject = require('../observer/Subject');
+const Subject = require('../utils/observer/Subject');
 const BookingSubject = new Subject();
 const notificationObserver = new NotificationObserver(BookingSubject);
 
