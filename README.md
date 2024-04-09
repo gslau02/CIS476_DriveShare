@@ -4,8 +4,7 @@ Environment setup:
 1. Make sure you have react, nodejs, and npm installed.
 2. In the client directory, run 'npm install' to install node module and dependecies required for frontend.
 3. In the server directory, run 'npm install' to install node module and dependecies required for backend.
-4. In the server directory, add '.env' file and insert 'MONGODB_URI' constant into the file. You can get the uri from attached image.
-![image](https://github.com/gslau02/CIS476_DriveShare/assets/114629753/d0b23a16-6b05-4ec8-83d8-c1b17a39d3e4)
+4. In the server directory, add '.env' file and insert 'MONGODB_URI' constant into the file. You can get the uri from the repository owner.
 
 
 Running application:
