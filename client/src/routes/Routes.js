@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+// Import page components
 import RegisterPage from '../pages/RegisterPage';
 import AuthPage from '../pages/AuthPage';
 import ListCarPage from '../pages/ListCarPage';
@@ -17,6 +18,7 @@ import PaymentPage from '../pages/PaymentPage';
 import InboxPage from '../pages/InboxPage';
 import ChatRoomPage from '../pages/ChatRoomPage';
 
+// AppRouter functional component
 const AppRouter = () => {
   return (
     <Router>
