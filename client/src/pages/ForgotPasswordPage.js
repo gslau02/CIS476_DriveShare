@@ -1,9 +1,10 @@
-// ForgotPassword.js
+// ForgotPasswordPage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSecurityQuestions, verifySecurityQuestions, updatePassword } from '../utils/auth';
 
 const ForgotPasswordPage = () => {
+  // Define state variables
   const [email, setEmail] = useState('');
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
@@ -13,12 +14,14 @@ const ForgotPasswordPage = () => {
 
   const navigate = useNavigate();
 
+  // Handle input change for security question answers
   const handleChange = (e, index) => {
     const newAnswers = [...answers];
     newAnswers[index] = e.target.value;
     setAnswers(newAnswers);
   };
 
+  // Handle email submission to fetch security questions
   const handleSubmitEmail = async (e) => {
     e.preventDefault();
     try {
@@ -28,7 +31,8 @@ const ForgotPasswordPage = () => {
       console.error('Error fetching security questions:', error);
     }
   };
-
+  
+  // Handle answers submission to verify security questions
   const handleSubmitAnswers = async (e) => {
     e.preventDefault();
     try {
@@ -40,6 +44,7 @@ const ForgotPasswordPage = () => {
     }
   };
 
+  // Handle new password submission
   const handleSubmitNewPassword = async (e) => {
     e.preventDefault();
     try {
@@ -55,6 +60,7 @@ const ForgotPasswordPage = () => {
     }
   };
 
+  // Render the component
   return (
     <div>
       {questions.length === 0 ? (
