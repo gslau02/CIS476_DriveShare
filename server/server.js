@@ -7,7 +7,6 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const carRoutes = require('./routes/car');
 const bookingRoutes = require('./routes/booking');
-const notificationRoutes = require('./routes/notification')
 const inboxRoutes = require('./routes/inbox');
 
 // Create an Express app
@@ -22,7 +21,6 @@ app.use(bodyParser.json());
 app.use('/auth', authRoutes);
 app.use('/car', carRoutes);
 app.use('/booking', bookingRoutes);
-app.use('/notification', notificationRoutes);
 app.use('/inbox', inboxRoutes);
 
 // Start the server
